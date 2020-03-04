@@ -2,134 +2,35 @@ resource "aws_organizations_policy" "limit_regions" {
   name        = "AMTLimitRegions"
   description = "Limits AWS regions to approved AmTrust regions."
 
-  content = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "DenyAllOutsideEU",
-            "Effect": "Deny",
-            "NotAction": [
-                "iam:*",
-                "organizations:*",
-                "route53:*",
-                "budgets:*",
-                "waf:*",
-                "cloudfront:*",
-                "globalaccelerator:*",
-                "importexport:*",
-                "support:*"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringNotEquals": {
-                    "aws:RequestedRegion": [
-                        "us-east-1",
-                        "us-east-2"
-                    ]
-                }
-            }
-        }
-    ]
-}
-EOF
+  content = file("${path.module}/policies/scp-limit-regions.json")
 }
 
 resource "aws_organizations_policy" "disable_egress" {
   name        = "AMTPreventInternetAccess"
   description = "Disallows users creating their own data egress."
 
-  content = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Deny",
-            "Action": [
-                "ec2:AttachInternetGateway",
-                "ec2:CreateInternetGateway",
-                "ec2:CreateEgressOnlyInternetGateway",
-                "ec2:CreateVpcPeeringConnection",
-                "ec2:AcceptVpcPeeringConnection",
-                "globalaccelerator:Create*",
-                "globalaccelerator:Update*"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-EOF
+  content = file("${path.module}/policies/scp-disable-egress.json")
 }
 
 resource "aws_organizations_policy" "lock_down_cloudtrail" {
   name        = "AMTLockDownCloudTrail"
   description = "Prevents users from stopping CloudTrail logging."
 
-  content = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Deny",
-            "Action": "cloudtrail:StopLogging",
-            "Resource": "*"
-        }
-    ]
-}
-EOF
+  content = file("${path.module}/policies/scp-lock-down-cloud-trail.json")
 }
 
 resource "aws_organizations_policy" "deny_all" {
   name        = "AMTDenyAll"
   description = "Denies all actions."
 
-  content = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Deny",
-            "Action": "cloudtrail:StopLogging",
-            "Resource": "*"
-        }
-    ]
-}
-EOF
+  content = file("${path.module}/policies/scp-deny-all.json")
 }
 
 resource "aws_organizations_policy" "require_s3_encryption" {
   name        = "AMTRequireS3Encryption"
   description = "Requires that anything stored on S3 is encrypted."
 
-  content = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "DenyIncorrectEncryptionHeader",
-            "Effect": "Deny",
-            "Action": "s3:PutObject",
-            "Resource": "*",
-            "Condition": {
-                "ForAllValues:StringNotEquals": {
-                    "s3:x-amz-server-side-encryption": ["AES256","aws:kms"]
-                }
-            }
-        },
-        {
-            "Sid": "DenyUnEncryptedObjectUploads",
-            "Effect": "Deny",
-            "Action": "s3:PutObject",
-            "Resource": "*",
-            "Condition": {
-                "Null": {
-                    "s3:x-amz-server-side-encryption": true
-                }
-            }
-        }
-    ]
-}
-EOF
+  content = file("${path.module}/policies/scp-require-s3-encryption.json")
 }
 
 ### Policy Attachments
