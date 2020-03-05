@@ -1,6 +1,6 @@
 resource "aws_organizations_policy" "require_costcenter_tag" {
   name        = "AMTTagLocation"
-  description = "Requires the 'CostCenter' tag on all resources."
+  description = "Requires the 'CostCenter' tag on all resources. Results can be viewed in Resource Groups in the master account."
   type        = "TAG_POLICY"
 
   content = file("${path.module}/policies/tag-require-costcenter.json")
