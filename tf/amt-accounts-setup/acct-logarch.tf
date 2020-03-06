@@ -87,7 +87,10 @@ resource "aws_s3_bucket" "log_archive" {
     prevent_destroy = true
   }
 
-  tags = merge(module.log_arch_tags.tags, { asset-role = "LogArchive" })
+  tags = merge(module.log_arch_tags.tags, {
+    asset-role  = "LogArchive"
+    description = "Write-only S3 bucket that is used to archive any log data."
+  })
 }
 
 resource "aws_s3_bucket_policy" "log_archive" {
@@ -101,9 +104,9 @@ resource "aws_s3_bucket_public_access_block" "log_archive" {
   provider = aws.logarch
 
   bucket                  = aws_s3_bucket.log_archive.bucket
-  block_public_acls       = false
+  block_public_acls       = true
   ignore_public_acls      = false
-  block_public_policy     = false
+  block_public_policy     = true
   restrict_public_buckets = false
 }
 
