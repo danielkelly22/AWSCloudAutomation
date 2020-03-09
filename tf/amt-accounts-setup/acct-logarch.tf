@@ -1,5 +1,6 @@
 locals {
-  logarchacct = var.accounts["logarch"]
+  logarchacct       = var.accounts["logarch"]
+  lifecycle_folders = ["log", "config"]
 }
 
 provider "aws" {
@@ -33,53 +34,33 @@ resource "aws_s3_bucket" "log_archive" {
   bucket_prefix = "amt-log-archive-"
   acl           = "private"
 
-  lifecycle_rule {
-    id      = "log"
-    enabled = true
-    prefix  = "log/"
+  dynamic "lifecycle_rule" {
+    iterator = current
+    for_each = local.lifecycle_folders
 
-    tags = {
-      "rule"      = "log"
-      "autoclean" = "true"
-    }
+    content {
+      id      = current.value
+      enabled = true
+      prefix  = "${current.value}/"
 
-    transition {
-      days          = 45
-      storage_class = "STANDARD_IA"
-    }
+      tags = {
+        "rule"      = current.value
+        "autoclean" = "true"
+      }
 
-    transition {
-      days          = 90
-      storage_class = "GLACIER"
-    }
+      transition {
+        days          = 45
+        storage_class = "STANDARD_IA"
+      }
 
-    expiration {
-      days = 2738 # 365 * 7.5 (about 7 1/2 years)
-    }
-  }
+      transition {
+        days          = 90
+        storage_class = "GLACIER"
+      }
 
-  lifecycle_rule {
-    id      = "config"
-    enabled = true
-    prefix  = "config/"
-
-    tags = {
-      "rule"      = "config"
-      "autoclean" = "true"
-    }
-
-    transition {
-      days          = 45
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days          = 90
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = 2738 # 365 * 7.5 (about 7 1/2 years)
+      expiration {
+        days = 2738 # 365 * 7.5 (about 7 1/2 years)
+      }
     }
   }
 
@@ -117,7 +98,7 @@ module "log_arch_baseline" {
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = "~> 0.2.2"
+  version = ">= 0.3.0"
 
   environment_short_name = local.logarchacct.environment_affix
   log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket

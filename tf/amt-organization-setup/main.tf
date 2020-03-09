@@ -15,18 +15,9 @@ provider "aws" {
 
 ### Organization
 resource "aws_organizations_organization" "org" {
-  aws_service_access_principals = [
-    "cloudtrail.amazonaws.com",
-    "config.amazonaws.com",
-    "ram.amazonaws.com",
-    "sso.amazonaws.com",
-    "tagpolicies.tag.amazonaws.com"
-  ]
-  enabled_policy_types = [
-    "SERVICE_CONTROL_POLICY",
-    "TAG_POLICY"
-  ]
-  feature_set = "ALL"
+  aws_service_access_principals = var.organization_service_access_principals
+  enabled_policy_types          = var.organization_enabled_policy_types
+  feature_set                   = var.organization_feature_set
 }
 
 locals {

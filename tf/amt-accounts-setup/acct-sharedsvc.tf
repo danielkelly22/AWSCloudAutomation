@@ -34,7 +34,7 @@ module "shared_svc_baseline" {
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = "~> 0.2.2"
+  version = ">= 0.3.0"
 
   environment_short_name = local.sharedsvcacct.environment_affix
   log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket
