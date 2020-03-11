@@ -87,7 +87,6 @@ locals {
   ]
 }
 
-
 #-----------------------------------
 # Internet Connectivity
 #-----------------------------------
@@ -102,6 +101,14 @@ locals {
     : key => var.vpc_details.internet_connected_subnets[key]
     if var.vpc_details.internet_connected_subnets[key] == "private"
   }
+  private_egress_cidr_blocks = flatten([
+    for route_key, cidr_block in var.internet_egress_routes : [
+      for subnet, subnet_type in local.public_egress_subnets : {
+        cidr_block    = cidr_block
+        public_subnet = subnet
+      }
+    ]
+  ])
 }
 
 resource "aws_eip" "eips" {
@@ -175,14 +182,7 @@ resource "aws_route_table" "egress_private" {
   vpc_id = aws_vpc.vpc.id
 
   dynamic "route" {
-    for_each = flatten([
-      for route_key, cidr_block in var.internet_egress_routes : [
-        for subnet, subnet_type in local.public_egress_subnets : {
-          cidr_block    = cidr_block
-          public_subnet = subnet
-        }
-      ]
-    ])
+    for_each = local.private_egress_cidr_blocks
 
     content {
       cidr_block     = route.value.cidr_block
