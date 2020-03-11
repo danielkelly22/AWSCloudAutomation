@@ -2,9 +2,6 @@
 # Set up proviers 
 #-----------------------------------------------
 provider "aws" {
-  alias = "sandbox"
-}
-provider "aws" {
   alias = "dev"
 }
 provider "aws" {
