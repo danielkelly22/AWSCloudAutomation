@@ -5,7 +5,6 @@ provider "aws" {
   }
 }
 
-
 module "shared_tags" {
   source               = "tfe.amtrustgroup.com/AmTrust/tags/aws"
   business_unit        = var.cloud_governance_business_unit
@@ -15,7 +14,6 @@ module "shared_tags" {
   application_owner    = var.cloud_governance_email
   infrastructure_owner = var.cloud_governance_email
 }
-
 
 resource "aws_kms_key" "sharedsvc_kms_key" {
   description = "KMS Key for AWS backup vault"
@@ -45,7 +43,6 @@ data "aws_db_instance" "tfe_rds" {
 data "aws_iam_role" "sharedsvc_backup" {
   name = "AWSBackupDefaultServiceRole"
 }
-
 
 resource "aws_backup_selection" "sharedsvc_selections" {
   iam_role_arn = data.aws_iam_role.sharedsvc_backup.arn
