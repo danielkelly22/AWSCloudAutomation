@@ -64,24 +64,24 @@ module "transit-gateway" {
 #-----------------------------------------------
 # DR
 #-----------------------------------------------
-# module "dr_tgw_tags" {
-#   providers = { aws = aws.shared_dr }
+module "dr_tgw_tags" {
+  providers = { aws = aws.shared_dr }
 
-#   source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
-#   version = ">= 0.2.0"
+  source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
+  version = ">= 0.2.0"
 
-#   application_name     = "Networking"
-#   application_owner    = "amtrustcloudteam@amtrustgroup.com"
-#   business_unit        = "tbd"
-#   cost_center          = "IT0000"
-#   environment          = "dr"
-#   infrastructure_owner = "amtrustcloudteam@amtrustgroup.com"
-# }
+  application_name     = "Networking"
+  application_owner    = "amtrustcloudteam@amtrustgroup.com"
+  business_unit        = "tbd"
+  cost_center          = "IT0000"
+  environment          = "dr"
+  infrastructure_owner = "amtrustcloudteam@amtrustgroup.com"
+}
 
-# module "dr_tgw" {
-#   providers = { aws = aws.shared_dr }
+module "dr_tgw" {
+  providers = { aws = aws.shared_dr }
 
-#   source = "./modules/transit_gateway"
+  source = "./modules/transit_gateway"
 
-#   tags = module.dr_tgw_tags.tags
-# }
+  tags = module.dr_tgw_tags.tags
+}

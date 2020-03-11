@@ -29,7 +29,6 @@ variable "skip_gateway_attachment_acceptance" {
   default     = false
 }
 
-
 variable "transit_gateway_default_route_table_association" {
   description = "See the docs"
   type        = bool
@@ -40,6 +39,17 @@ variable "transit_gateway_default_route_table_propagation" {
   description = "See the docs"
   type        = bool
   default     = false
+}
+
+variable "transit_gateway_egress_cidr_blocks" {
+  description = ""
+  type        = map(string)
+  default = {
+    quad-zeroes     = "0.0.0.0/0"
+    tens            = "10.0.0.0/8"
+    one-seventy-two = "172.16.0.0/12"
+    one-ninety-two  = "192.168.0.0/16"
+  }
 }
 
 variable "internet_routable_cidr_blocks" {

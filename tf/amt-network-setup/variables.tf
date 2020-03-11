@@ -195,162 +195,6 @@ variable "transit_subnet_azs" {
   ]
 }
 
-variable "vpc_details" {
-  default = {
-    prod_dr = {
-      cidr_block        = "10.100.0.0/20"
-      environment_affix = "dr-prod"
-      subnets = {
-        amt-dr-prod-web-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 0) = 10.100.0.0/23
-            newbits = 3
-            netnum  = 0
-          }
-        }
-        amt-dr-prod-app-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 1) = 10.100.2.0/23
-            newbits = 3
-            netnum  = 1
-          }
-        }
-        amt-dr-prod-data-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 2) = 10.100.4.0/23
-            newbits = 3
-            netnum  = 2
-          }
-        }
-        amt-dr-prod-omnius-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.100.0.0/20", 4, 6) = 10.100.6.0/24
-            newbits = 4
-            netnum  = 6
-          }
-        }
-        amt-dr-prod-omnius-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.100.0.0/20", 4, 7) = 10.100.7.0/24
-            newbits = 4
-            netnum  = 7
-          }
-        }
-        amt-dr-prod-web-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 4) = 10.100.8.0/23
-            newbits = 3
-            netnum  = 4
-          }
-        }
-        amt-dr-prod-app-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 5) = 10.100.10.0/23
-            newbits = 3
-            netnum  = 5
-          }
-        }
-        amt-dr-prod-data-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.100.0.0/20", 3, 6) = 10.100.12.0/23
-            newbits = 3
-            netnum  = 6
-          }
-        }
-      }
-      subnet_shares = {
-        omnius = {
-          target_name               = "omnius_prod"
-          allow_external_principals = false
-          principal                 = "675938983696"
-          subnets = {
-            amt-dr-prod-omnius-subnet-a = {
-              description = "Subnet zone A for the omni:us application"
-            }
-            amt-dr-prod-omnius-subnet-b = {
-              description = "Subnet zone B for the omni:us application"
-            }
-          }
-        }
-      }
-      transited_subnets = [
-        "amt-dr-prod-app-subnet-a",
-        "amt-dr-prod-app-subnet-b"
-      ]
-    }
-
-
-    shared_dr = {
-      cidr_block        = "10.200.0.0/20"
-      environment_affix = "dr-shared"
-      subnets = {
-        amt-dr-shared-core-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.200.0.0/20", 3, 0) = 10.200.0.0/23
-            newbits = 3
-            netnum  = 0
-          }
-        }
-        amt-dr-shared-core-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.200.0.0/20", 3, 1) = 10.200.2.0/23
-            newbits = 3
-            netnum  = 1
-          }
-        }
-        amt-dr-shared-jump-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.200.0.0/20", 4, 4) = 10.200.4.0/23
-            newbits = 3
-            netnum  = 2
-          }
-        }
-        amt-dr-shared-jump-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.200.0.0/20", 4, 5) = 10.200.5.0/24
-            newbits = 4
-            netnum  = 6
-          }
-        }
-        amt-dr-shared-trainer-subnet-a = {
-          availability_zone = "us-east-2a"
-          cidr = { # cidrsubnet("10.200.0.0/20", 4, 6) = 10.200.6.0/24
-            newbits = 4
-            netnum  = 7
-          }
-        }
-        amt-dr-shared-trainer-subnet-b = {
-          availability_zone = "us-east-2b"
-          cidr = { # cidrsubnet("10.200.0.0/20", 4, 7) = 10.100.7.0/23
-            newbits = 3
-            netnum  = 4
-          }
-        }
-      }
-      subnet_shares = {
-        omnius = {
-          target_name               = "omnius_nonprod"
-          allow_external_principals = false
-          principal                 = "421354678477"
-          subnets = {
-            amt-dr-shared-trainer-subnet-a = {
-              description = "Subnet zone A for the omni:us trainer environment"
-            }
-            amt-dr-shared-trainer-subnet-b = {
-              description = "Subnet zone B for the omni:us trainer environment"
-            }
-          }
-        }
-      }
-      transited_subnets = [
-        "amt-dr-shared-core-subnet-a",
-        "amt-dr-shared-core-subnet-b"
-      ]
-    }
-
-  }
-}
-
 variable "organization_accounts" {
   description = "The organization account access details."
   type = map(object({
@@ -370,4 +214,46 @@ variable "organization_accounts" {
       assume_role_arn = "arn:aws:iam::347306377087:role/ProductionRoot"
     }
   }
+}
+
+variable "shared_vpc_details" {
+  description = "The VPC details for shared VPCs"
+  type        = object({ dr = any })
+}
+
+variable "transit_vpc_details" {
+  description = "The VPC details for transit VPCs"
+  type        = object({ dr = any })
+}
+
+variable "dev_vpc_details" {
+  description = "The VPC details for devlopment VPCs"
+  type        = object({ dr = any })
+}
+
+variable "prod_vpc_details" {
+  description = "The VPC details for production VPCs"
+  type        = object({ dr = any })
+  # type = object({
+  #   dr = object({
+  #     cidr_block        = string
+  #     environment_affix = string
+  #     subnets = map(object({
+  #       availability_zone = string
+  #       cidr = object({
+  #         newbits = number
+  #         netnum  = number
+  #       })
+  #     }))
+  #     subnet_shares = map(object({
+  #       target_name               = string
+  #       allow_external_principals = bool
+  #       principal                 = string
+  #       subnets = map(object({
+  #         description = string
+  #       }))
+  #     }))
+  #     transited_subnets = list(string)
+  #   })
+  # })
 }

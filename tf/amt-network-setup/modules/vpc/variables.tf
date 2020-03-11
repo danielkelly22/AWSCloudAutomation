@@ -3,6 +3,12 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "transit_gateway_id" {
+  description = "(Optional) provide this if there are internet connected subnets."
+  type        = string
+  default     = ""
+}
+
 variable "vpc_defaults" {
   description = "Default settings for the VPC"
   type = object({
@@ -43,7 +49,24 @@ variable "vpc_details" {
         description = string
       }))
     }))
-    transited_subnets = list(string)
+    transited_subnets          = list(string)
+    internet_connected_subnets = map(string)
   })
+}
+
+variable "internet_egress_routes" {
+  description = ""
+  type        = map(string)
+  default     = { zeroes = "0.0.0.0/0" }
+}
+
+variable "private_egress_routes" {
+  description = ""
+  type        = map(string)
+  default = {
+    tens            = "10.0.0.0/8",
+    one-seventy-two = "172.16.0.0/12",
+    one-ninety-two  = "192.168.0.0/16"
+  }
 }
 
