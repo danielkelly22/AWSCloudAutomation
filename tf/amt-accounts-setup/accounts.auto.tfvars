@@ -1,4 +1,4 @@
-{
+accounts = {
   development = {
     account_number    = 366159711973
     root_role         = "DevRoot"
