@@ -13,7 +13,8 @@
                 "cloudfront:*",
                 "globalaccelerator:*",
                 "importexport:*",
-                "support:*"
+                "support:*",
+                "ec2:Describe*"
             ],
             "Resource": "*",
             "Condition": {
