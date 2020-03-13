@@ -213,6 +213,16 @@ variable "organization_accounts" {
       root_role       = "ProductionRoot"
       assume_role_arn = "arn:aws:iam::347306377087:role/ProductionRoot"
     }
+    development = {
+      account_number  = "366159711973"
+      root_role       = "DevRoot"
+      assume_role_arn = "arn:aws:iam::366159711973:role/DevRoot"
+    }
+    uat = {
+      account_number  = "213440460626"
+      root_role       = "TestRoot"
+      assume_role_arn = "arn:aws:iam::213440460626:role/TestRoot"
+    }
   }
 }
 
@@ -228,6 +238,11 @@ variable "transit_vpc_details" {
 
 variable "dev_vpc_details" {
   description = "The VPC details for devlopment VPCs"
+  type        = object({ dr = any })
+}
+
+variable "uat_vpc_details" {
+  description = "The VPC details for UAT VPCs"
   type        = object({ dr = any })
 }
 

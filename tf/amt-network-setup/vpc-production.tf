@@ -61,32 +61,19 @@ module "dr_prod_tags" {
 }
 
 module "dr_prod_vpc" {
-  source = "./modules/vpc"
-  providers = {
-    aws = aws.prod_dr
-  }
-
-  vpc_details = var.prod_vpc_details.dr
-
-  tags = module.dr_prod_tags.tags
-}
-
-module "dr_prod_tgw_setup" {
-  source = "./modules/vpc_routes_and_rules"
-
   providers = {
     aws        = aws.prod_dr
     aws.shared = aws.shared_dr
   }
 
-  environment_affix                 = var.prod_vpc_details.dr.environment_affix
-  subnets                           = module.dr_prod_vpc.transited_subnets
-  vpc_id                            = module.dr_prod_vpc.vpc_id
-  transit_gateway_id                = module.dr_tgw.tgw_id
-  vpn_transit_gateway_attachment_id = "" # todo
+  source = "./modules/vpc"
 
-  aws_routable_cidr_blocks = local.common_routes
-  blackhole_cidr_blocks    = local.non_prod_routes
+  transit_gateway_id = module.dr_tgw.tgw_id
+  vpc_details        = var.prod_vpc_details.dr
+  aws_routable_cidr_blocks = {
+    dr-shared-services = local.all_cidr_addresses.shared.dr
+    dr-transit         = local.all_cidr_addresses.transit.dr
+  }
 
   tags = module.dr_prod_tags.tags
 }

@@ -54,14 +54,20 @@ variable "vpc_details" {
   })
 }
 
-variable "internet_egress_routes" {
-  description = ""
+variable "aws_routable_cidr_blocks" {
+  description = "The ingress CIDR blocks allowed into the VPC"
+  type        = map(string)
+}
+
+
+variable "internet_routable_cidr_blocks" {
+  description = "(Optional) The egress CIDR blocks allowed from the VPC. Defaults to '0.0.0.0/0'"
   type        = map(string)
   default     = { zeroes = "0.0.0.0/0" }
 }
 
-variable "private_egress_routes" {
-  description = ""
+variable "private_egress_blocks" {
+  description = "(Optional) The private IP address ranges that are allowed for egress. Defaults to all RFC1918 private network ranges."
   type        = map(string)
   default = {
     tens            = "10.0.0.0/8",
@@ -70,3 +76,20 @@ variable "private_egress_routes" {
   }
 }
 
+variable "skip_gateway_attachment_acceptance" {
+  description = "Set this to true if the VPC and the transit gateway are in the same account. Defaults to false."
+  type        = bool
+  default     = false
+}
+
+variable "transit_gateway_default_route_table_association" {
+  description = "(Optional) See the docs. Defaults to 'false'"
+  type        = bool
+  default     = false
+}
+
+variable "transit_gateway_default_route_table_propagation" {
+  description = "(Optional) See the docs. Defaults to 'false'"
+  type        = bool
+  default     = false
+}

@@ -66,10 +66,10 @@ dev_vpc_details = {
         allow_external_principals = false
         principal                 = "421354678477"
         subnets = {
-          amt-dr-prod-omnius-subnet-a = {
+          amt-dr-dev-omnius-subnet-a = {
             description = "Subnet zone A for the omni:us development environment"
           }
-          amt-dr-prod-omnius-subnet-b = {
+          amt-dr-dev-omnius-subnet-b = {
             description = "Subnet zone B for the omni:us development environment"
           }
         }

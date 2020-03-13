@@ -117,6 +117,9 @@ resource "aws_ec2_transit_gateway_route" "blackhole_routes" {
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.routes.id
 }
 
+
+
+
 resource "aws_route_table" "transit_routes" {
   vpc_id = var.vpc_id
 
@@ -133,6 +136,10 @@ resource "aws_route_table" "transit_routes" {
     Name = "amt-${var.environment_affix}-transit-routes"
   })
 }
+
+
+
+
 
 resource "aws_security_group" "transit_security_group" {
   name        = "amt-${var.environment_affix}-transit-security-group"
