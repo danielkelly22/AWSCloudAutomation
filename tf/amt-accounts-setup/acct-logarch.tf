@@ -26,6 +26,7 @@ module "log_arch_tags" {
   application_name     = var.cloud_governance_application_name
   application_owner    = var.cloud_governance_email
   infrastructure_owner = var.cloud_governance_email
+  terraform_workspace  = var.terraform_workspace
 }
 
 resource "aws_s3_bucket" "log_archive" {

@@ -25,6 +25,7 @@ module "production_tags" {
   application_name     = var.cloud_governance_application_name
   application_owner    = var.cloud_governance_email
   infrastructure_owner = var.cloud_governance_email
+  terraform_workspace  = var.terraform_workspace
 }
 
 module "production_baseline" {

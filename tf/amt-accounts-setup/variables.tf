@@ -28,3 +28,9 @@ variable "cloud_governance_application_name" {
   type        = string
   default     = "AmTrust AWS Governance"
 }
+
+variable "terraform_workspace" {
+  description = "The name of the terraform workspace that manages the resources"
+  type        = string
+  default     = "amt-account-setup"
+}

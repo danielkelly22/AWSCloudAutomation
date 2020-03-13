@@ -65,6 +65,7 @@ shared_vpc_details = {
       "amt-dr-shared-core-subnet-a",
       "amt-dr-shared-core-subnet-b"
     ],
-    internet_connected_subnets = {}
+    internet_connected_subnets = {
+    }
   }
 }
