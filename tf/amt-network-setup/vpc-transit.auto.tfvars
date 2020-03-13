@@ -32,6 +32,7 @@ transit_vpc_details = {
     internet_connected_subnets = {
       amt-dr-transit-public-subnet-a  = "public"
       amt-dr-transit-private-subnet-a = "private"
+      amt-dr-transit-mgmt-subnet-a    = "amt-dr-transit-private-subnet-a"
     }
   }
 }

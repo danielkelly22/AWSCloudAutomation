@@ -1,3 +1,39 @@
+variable "networking_business_unit" {
+  description = "The business unit for networking"
+  type        = string
+  default     = "tbd"
+}
+
+variable "networking_team_email" {
+  description = "The email of the network team"
+  type        = string
+  default     = "tbd"
+}
+
+variable "networking_cost_center" {
+  description = "The cost center for the cloud architecture department"
+  type        = string
+  default     = "IT0000"
+}
+
+variable "networking_application_name" {
+  description = "The application name for cloud governance resources"
+  type        = string
+  default     = "Networking"
+}
+
+variable "cloud_governance_email" {
+  description = "The email of the cloud governance department"
+  type        = string
+  default     = "amtrustcloudteam@amtrustgroup.com"
+}
+
+variable "terraform_workspace" {
+  description = "The name of the terraform workspace that manages the resources"
+  type        = string
+  default     = "amt-network-setup"
+}
+
 variable "dev_vpc_cidr" {
   type    = string
   default = "10.98.16.0/20"

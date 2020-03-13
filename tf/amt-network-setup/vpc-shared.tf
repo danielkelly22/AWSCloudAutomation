@@ -1,81 +1,81 @@
 provider "aws" {
-  alias  = "prod"
+  alias  = "shared"
   region = "us-east-1"
   assume_role {
-    role_arn = var.organization_accounts.production.assume_role_arn
+    role_arn = var.organization_accounts.shared.assume_role_arn
   }
 }
 provider "aws" {
-  alias  = "prod_dr"
+  alias  = "shared_dr"
   region = "us-east-2"
   assume_role {
-    role_arn = var.organization_accounts.production.assume_role_arn
+    role_arn = var.organization_accounts.shared.assume_role_arn
   }
 }
 
 #-----------------------------------------------
 # Primary
 #-----------------------------------------------
-module "prod_tags" {
-  providers = { aws = aws.prod }
+module "shared_tags" {
+  providers = { aws = aws.shared }
 
   source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
   version = ">= 0.3.1"
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = "prod" #var.prod_vpc_details.primary.environment_affix
+  environment          = "shared" #var.shared_vpc_details.primary.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
   terraform_workspace  = var.terraform_workspace
 }
 
-module "prodVpc" {
-  source = "./modules/prodVpc"
+module "sharedVpc" {
+  source = "./modules/sharedVpc"
   providers = {
-    aws = aws.prod
+    aws = aws.shared
   }
-  vpc_cidr           = var.prod_vpc_cidr
-  subnet_names       = var.prod_subnet_names
-  subnet_ranges      = var.prod_subnet_ranges
-  availability_zones = var.prod_subnet_azs
+  vpc_cidr           = var.shared_vpc_cidr
+  subnet_names       = var.shared_subnet_names
+  subnet_ranges      = var.shared_subnet_ranges
+  availability_zones = var.shared_subnet_azs
   transit_gateway_id = module.transit-gateway.transit_gateway_id
-  env_name           = "Prod"
+  env_name           = "SharedServices"
 }
 
 #-----------------------------------------------
 # DR
 #-----------------------------------------------
-module "dr_prod_tags" {
-  providers = { aws = aws.prod_dr }
+module "dr_shared_tags" {
+  providers = { aws = aws.shared_dr }
 
   source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
   version = ">= 0.3.1"
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = var.prod_vpc_details.dr.environment_affix
+  environment          = var.shared_vpc_details.dr.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
   terraform_workspace  = var.terraform_workspace
 }
 
-module "dr_prod_vpc" {
+module "dr_shared_vpc" {
+  source = "./modules/vpc"
   providers = {
-    aws        = aws.prod_dr
+    aws        = aws.shared_dr
     aws.shared = aws.shared_dr
   }
 
-  source = "./modules/vpc"
-
-  transit_gateway_id = module.dr_tgw.tgw_id
-  vpc_details        = var.prod_vpc_details.dr
+  transit_gateway_id                 = module.dr_tgw.tgw_id
+  vpc_details                        = var.shared_vpc_details.dr
+  skip_gateway_attachment_acceptance = true
   aws_routable_cidr_blocks = {
     dr-shared-services = local.all_cidr_addresses.shared.dr
     dr-transit         = local.all_cidr_addresses.transit.dr
   }
 
-  tags = module.dr_prod_tags.tags
+  tags = module.dr_shared_tags.tags
 }

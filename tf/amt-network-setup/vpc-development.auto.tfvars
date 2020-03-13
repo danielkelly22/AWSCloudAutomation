@@ -1,7 +1,7 @@
 dev_vpc_details = {
   dr = {
     cidr_block        = "10.200.16.0/20"
-    environment_affix = "dr-prod"
+    environment_affix = "dr-dev"
     subnets = {
       amt-dr-dev-web-subnet-a = {
         availability_zone = "us-east-2a"
