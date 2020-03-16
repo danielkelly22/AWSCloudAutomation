@@ -1,0 +1,25 @@
+# file: sharedsvc
+[all:vars]
+cloudendure_install_token="F74B-7E36-3264-1656-7007-04B8-523E-DB95-94A6-D3E1-26C7-DC0D-4B5A-B2B2-EE62-A248"
+
+[sharedvpckeys:vars]
+ansible_ssh_private_key_file=~/.ssh/sharedvpckeys.pem
+[sharedvpckeys]
+ip-10-98-4-49.ec2.internal ansible_user=centos ansible_python_interpreter="/usr/bin/python"
+
+[tfekey:vars]
+ansible_ssh_private_key_file=~/.ssh/TFE_key.pem
+[tfekey]
+ip-10-98-4-213.ec2.internal ansible_user=centos ansible_python_interpreter="/usr/bin/python"
+ip-10-98-4-77.ec2.internal ansible_user=centos ansible_python_interpreter="/usr/bin/python"
+ip-10-98-4-122.ec2.internal ansible_user=ubuntu ansible_python_interpreter="/usr/bin/python3"
+
+#[omnius-bastion:vars]
+#ansible_ssh_private_key_file=~/.ssh/<GET THE KEYS>
+#[omnius-bastion]
+#ip-10-98-4-72.ec2.internal
+
+[transitvpckeys:vars]
+ansible_ssh_private_key_file=~/.ssh/transitvpckeys.pem
+[transitvpckeys]
+10.98.8.12 ansible_user=centos ansible_python_interpreter="/usr/bin/python"
