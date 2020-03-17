@@ -3,7 +3,8 @@ data "aws_region" "current" {}
 data "aws_organizations_organization" "organization" {}
 
 resource "aws_ec2_transit_gateway" "tgw" {
-  description = "Transit Gateway for the ${data.aws_region.current.name} region"
+  description = var.description == "" ? "Transit Gateway for the ${data.aws_region.current.name} region" : var.description
+  #"Transit Transit Gateway"
 
   default_route_table_association = "disable"
   default_route_table_propagation = "disable"
@@ -16,9 +17,9 @@ resource "aws_ec2_transit_gateway" "tgw" {
 resource "aws_ram_resource_share" "tgw_share" {
   allow_external_principals = false
   name                      = "amt-${data.aws_region.current.name}-tgw-share"
-  tags = {
+  tags = merge(var.tags, {
     Name = "amt-${data.aws_region.current.name}-tgw-share"
-  }
+  })
 }
 resource "aws_ram_principal_association" "tgw_org_principal" {
   principal          = data.aws_organizations_organization.organization.arn

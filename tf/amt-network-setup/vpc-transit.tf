@@ -18,20 +18,22 @@ module "transit_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "transit_vpc" {
-#   source = "./modules/vpc"
-#   providers = {
-#     aws        = aws.shared
-#     aws.shared = aws.shared
-#   }
+module "transit_vpc" {
+  source = "./modules/vpc"
+  providers = {
+    aws        = aws.shared
+    aws.shared = aws.shared
+  }
 
-#   transit_gateway_id                 = module.transit-gateway.transit_gateway_id
-#   vpc_details                        = var.transit_vpc_details.primary
-#   skip_gateway_attachment_acceptance = true
-#   aws_routable_cidr_blocks           = {}
+  transit_gateway_id                 = module.tgw.tgw_id
+  vpc_details                        = var.transit_vpc_details.primary
+  skip_gateway_attachment_acceptance = true
+  aws_routable_cidr_blocks = {
+    shared-services = local.all_cidr_addresses.shared.primary
+  }
 
-#   tags = module.transit_tags.tags
-# }
+  tags = module.transit_tags.tags
+}
 
 #-----------------------------------------------
 # DR
@@ -61,7 +63,9 @@ module "dr_transit_vpc" {
   transit_gateway_id                 = module.dr_tgw.tgw_id
   vpc_details                        = var.transit_vpc_details.dr
   skip_gateway_attachment_acceptance = true
-  aws_routable_cidr_blocks           = {}
+  aws_routable_cidr_blocks = {
+    dr-shared-services = local.all_cidr_addresses.shared.dr
+  }
 
-  tags = module.dr_shared_tags.tags
+  tags = module.dr_transit_tags.tags
 }

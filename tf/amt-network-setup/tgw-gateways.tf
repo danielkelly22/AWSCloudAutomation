@@ -75,13 +75,15 @@ module "tgw_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "tgw" {
-#   providers = { aws = aws.shared }
+module "tgw" {
+  providers = { aws = aws.shared }
 
-#   source = "./modules/transit_gateway"
+  source = "./modules/transit_gateway"
 
-#   tags = module.tgw_tags.tags
-# }
+  description = "Transit Transit Gateway"
+
+  tags = module.tgw_tags.tags
+}
 
 #-----------------------------------------------
 # DR

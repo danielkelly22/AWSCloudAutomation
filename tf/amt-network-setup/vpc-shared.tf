@@ -24,30 +24,29 @@ module "shared_tags" {
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = "shared" #var.shared_vpc_details.primary.environment_affix
+  environment          = var.shared_vpc_details.primary.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "shared_vpc" {
-#   source = "./modules/vpc"
-#   providers = {
-#     aws        = aws.shared
-#     aws.shared = aws.shared
-#   }
+module "shared_vpc" {
+  source = "./modules/vpc"
+  providers = {
+    aws        = aws.shared
+    aws.shared = aws.shared
+  }
 
-#   transit_gateway_id                 = module.transit-gateway.transit_gateway_id
-#   vpc_details                        = var.shared_vpc_details.primary
-#   skip_gateway_attachment_acceptance = true
-#   aws_routable_cidr_blocks = {
-#     dr-shared-services = local.all_cidr_addresses.shared.primary
-#     dr-transit         = local.all_cidr_addresses.transit.primary
-#   }
+  transit_gateway_id                 = module.tgw.tgw_id
+  vpc_details                        = var.shared_vpc_details.primary
+  skip_gateway_attachment_acceptance = true
+  aws_routable_cidr_blocks = {
+    transit = local.all_cidr_addresses.transit.primary
+  }
 
-#   tags = module.shared_tags.tags
-# }
+  tags = module.shared_tags.tags
+}
 
 #-----------------------------------------------
 # DR
@@ -78,8 +77,7 @@ module "dr_shared_vpc" {
   vpc_details                        = var.shared_vpc_details.dr
   skip_gateway_attachment_acceptance = true
   aws_routable_cidr_blocks = {
-    dr-shared-services = local.all_cidr_addresses.shared.dr
-    dr-transit         = local.all_cidr_addresses.transit.dr
+    dr-transit = local.all_cidr_addresses.transit.dr
   }
 
   tags = module.dr_shared_tags.tags

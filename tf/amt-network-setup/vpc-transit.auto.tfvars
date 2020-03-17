@@ -31,9 +31,9 @@ transit_vpc_details = {
     ],
     public_subnets = ["amt-transit-public-subnet-a"],
     nat_subnets = {
-      amt-transit-public-subnet-a  = "public"
-      amt-transit-private-subnet-a = "private"
-      amt-transit-mgmt-subnet-a    = "amt-transit-private-subnet-a"
+      amt-transit-public-subnet-a  = "nat"
+      amt-transit-private-subnet-a = "amt-transit-public-subnet-a"
+      amt-transit-mgmt-subnet-a    = "amt-transit-public-subnet-a"
     }
   }
   dr = {
