@@ -32,22 +32,22 @@ module "uat_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "uat_vpc" {
-#   source = "./modules/vpc"
-#   providers = {
-#     aws        = aws.uat
-#     aws.shared = aws.shared
-#   }
+module "uat_vpc" {
+  source = "./modules/vpc"
+  providers = {
+    aws        = aws.uat
+    aws.shared = aws.shared
+  }
 
-#   transit_gateway_id = module.transit-gateway.transit_gateway_id
-#   vpc_details        = var.uat_vpc_details.primary
-#   aws_routable_cidr_blocks = {
-#     dr-shared-services = local.all_cidr_addresses.shared.primary
-#     dr-transit         = local.all_cidr_addresses.transit.primary
-#   }
+  transit_gateway_id = module.tgw.tgw_id
+  vpc_details        = var.uat_vpc_details.primary
+  aws_routable_cidr_blocks = {
+    dr-shared-services = local.all_cidr_addresses.shared.primary
+    dr-transit         = local.all_cidr_addresses.transit.primary
+  }
 
-#   tags = module.uat_tags.tags
-# }
+  tags = module.uat_tags.tags
+}
 
 #-----------------------------------------------
 # DR

@@ -32,22 +32,22 @@ module "dev_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "dev_vpc" {
-#   source = "./modules/vpc"
-#   providers = {
-#     aws        = aws.dev
-#     aws.shared = aws.shared
-#   }
+module "dev_vpc" {
+  source = "./modules/vpc"
+  providers = {
+    aws        = aws.dev
+    aws.shared = aws.shared
+  }
 
-#   transit_gateway_id = module.transit-gateway.transit_gateway_id
-#   vpc_details        = var.dev_vpc_details.primary
-#   aws_routable_cidr_blocks = {
-#     dr-shared-services = local.all_cidr_addresses.shared.primary
-#     dr-transit         = local.all_cidr_addresses.transit.primary
-#   }
+  transit_gateway_id = module.tgw.tgw_id
+  vpc_details        = var.dev_vpc_details.primary
+  aws_routable_cidr_blocks = {
+    dr-shared-services = local.all_cidr_addresses.shared.primary
+    dr-transit         = local.all_cidr_addresses.transit.primary
+  }
 
-#   tags = module.dev_tags.tags
-# }
+  tags = module.dev_tags.tags
+}
 
 #-----------------------------------------------
 # DR
