@@ -49,8 +49,9 @@ variable "vpc_details" {
         description = string
       }))
     }))
-    transited_subnets          = list(string)
-    internet_connected_subnets = map(string)
+    transited_subnets = list(string)
+    public_subnets    = set(string)
+    nat_subnets       = map(string)
   })
 }
 

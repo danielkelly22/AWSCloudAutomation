@@ -11,25 +11,27 @@ module "transit_tags" {
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = "transit" #var.shared_vpc_details.primary.environment_affix
+  environment          = var.shared_vpc_details.primary.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
   terraform_workspace  = var.terraform_workspace
 }
 
-module "transitVpc" {
-  source = "./modules/transitVpc"
-  providers = {
-    aws = aws.shared
-  }
-  vpc_cidr           = var.transit_vpc_cidr
-  subnet_names       = var.transit_subnet_names
-  subnet_ranges      = var.transit_subnet_ranges
-  availability_zones = var.transit_subnet_azs
-  transit_gateway_id = module.transit-gateway.transit_gateway_id
-  env_name           = "TransitVPC"
-}
+# module "transit_vpc" {
+#   source = "./modules/vpc"
+#   providers = {
+#     aws        = aws.shared
+#     aws.shared = aws.shared
+#   }
+
+#   transit_gateway_id                 = module.transit-gateway.transit_gateway_id
+#   vpc_details                        = var.transit_vpc_details.primary
+#   skip_gateway_attachment_acceptance = true
+#   aws_routable_cidr_blocks           = {}
+
+#   tags = module.transit_tags.tags
+# }
 
 #-----------------------------------------------
 # DR

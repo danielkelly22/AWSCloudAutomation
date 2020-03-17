@@ -31,18 +31,23 @@ module "shared_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-module "sharedVpc" {
-  source = "./modules/sharedVpc"
-  providers = {
-    aws = aws.shared
-  }
-  vpc_cidr           = var.shared_vpc_cidr
-  subnet_names       = var.shared_subnet_names
-  subnet_ranges      = var.shared_subnet_ranges
-  availability_zones = var.shared_subnet_azs
-  transit_gateway_id = module.transit-gateway.transit_gateway_id
-  env_name           = "SharedServices"
-}
+# module "shared_vpc" {
+#   source = "./modules/vpc"
+#   providers = {
+#     aws        = aws.shared
+#     aws.shared = aws.shared
+#   }
+
+#   transit_gateway_id                 = module.transit-gateway.transit_gateway_id
+#   vpc_details                        = var.shared_vpc_details.primary
+#   skip_gateway_attachment_acceptance = true
+#   aws_routable_cidr_blocks = {
+#     dr-shared-services = local.all_cidr_addresses.shared.primary
+#     dr-transit         = local.all_cidr_addresses.transit.primary
+#   }
+
+#   tags = module.shared_tags.tags
+# }
 
 #-----------------------------------------------
 # DR

@@ -12,10 +12,10 @@ module "dr_tgw_rt_shared" {
     #   cidr_blocks   = values(local.local_addresses)
     #   attachment_id = module.dr_vpn.attachment_id
     # }
-    internet-outbound = {
-      cidr_blocks   = ["0.0.0.0/0"]
-      attachment_id = module.dr_transit_vpc.transit_gateway_attachment_id
-    }
+    # internet-outbound = {
+    #   cidr_blocks   = ["0.0.0.0/0"]
+    #   attachment_id = module.dr_transit_vpc.transit_gateway_attachment_id
+    # }
     transit-vpc = {
       cidr_blocks   = [var.transit_vpc_details.dr.cidr_block]
       attachment_id = module.dr_transit_vpc.transit_gateway_attachment_id

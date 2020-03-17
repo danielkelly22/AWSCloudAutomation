@@ -31,18 +31,23 @@ module "prod_tags" {
   terraform_workspace  = var.terraform_workspace
 }
 
-module "prodVpc" {
-  source = "./modules/prodVpc"
-  providers = {
-    aws = aws.prod
-  }
-  vpc_cidr           = var.prod_vpc_cidr
-  subnet_names       = var.prod_subnet_names
-  subnet_ranges      = var.prod_subnet_ranges
-  availability_zones = var.prod_subnet_azs
-  transit_gateway_id = module.transit-gateway.transit_gateway_id
-  env_name           = "Prod"
-}
+# module "prod_vpc" {
+#   providers = {
+#     aws        = aws.prod
+#     aws.shared = aws.shared
+#   }
+
+#   source = "./modules/vpc"
+
+#   transit_gateway_id = module.transit-gateway.transit_gateway_id
+#   vpc_details        = var.prod_vpc_details.primary
+#   aws_routable_cidr_blocks = {
+#     dr-shared-services = local.all_cidr_addresses.shared.primary
+#     dr-transit         = local.all_cidr_addresses.transit.primary
+#   }
+
+#   tags = module.prod_tags.tags
+# }
 
 #-----------------------------------------------
 # DR

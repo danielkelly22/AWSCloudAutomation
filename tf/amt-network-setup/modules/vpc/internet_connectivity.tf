@@ -1,31 +1,18 @@
 locals {
-  public_egress_subnets = {
-    for key in keys(var.vpc_details.internet_connected_subnets)
-    : key => var.vpc_details.internet_connected_subnets[key]
-    if var.vpc_details.internet_connected_subnets[key] == "public"
-  }
-  private_egress_subnets = {
-    for key in keys(var.vpc_details.internet_connected_subnets)
-    : key => var.vpc_details.internet_connected_subnets[key]
-    if var.vpc_details.internet_connected_subnets[key] == "private"
-  }
-  private_egress_cidr_blocks = flatten([
-    for route_key, cidr_block in var.internet_routable_cidr_blocks : [
-      for subnet, subnet_type in local.public_egress_subnets : {
-        cidr_block    = cidr_block
-        public_subnet = subnet
-      }
-    ]
+  public_egress_subnets = var.vpc_details.public_subnets
+  private_egress_subnets = toset([
+    for subnet, type in var.vpc_details.nat_subnets
+    : subnet
+    if type == "nat"
   ])
   private_egress_dependent_subnets = flatten([
-    for subnet, type in var.vpc_details.internet_connected_subnets : [
-      for dependent_subnet, nat_subnet in var.vpc_details.internet_connected_subnets : {
+    for subnet in local.private_egress_subnets : [
+      for dependent_subnet, nat_subnet in var.vpc_details.nat_subnets : {
         nat_subnet     = nat_subnet
         private_subnet = dependent_subnet
       }
       if subnet == nat_subnet
     ]
-    if type == "private"
   ])
 
   any_public_egress = length(local.public_egress_subnets) == 0 ? [] : ["public-egress"]
@@ -132,13 +119,6 @@ resource "aws_route_table" "egress_private" {
     Name = "amt-${var.vpc_details.environment_affix}-private-egress-routes"
   })
 
-}
-
-resource "aws_route_table_association" "egress_private" {
-  for_each = local.private_egress_subnets
-
-  subnet_id      = aws_subnet.subnets[each.key].id
-  route_table_id = aws_route_table.egress_private[each.key].id
 }
 
 resource "aws_route_table_association" "egress_private_dependent_subnets" {

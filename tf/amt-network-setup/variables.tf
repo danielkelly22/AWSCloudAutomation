@@ -264,47 +264,41 @@ variable "organization_accounts" {
 
 variable "shared_vpc_details" {
   description = "The VPC details for shared VPCs"
-  type        = object({ dr = any })
+  type = object({
+    primary = any
+    dr      = any
+  })
 }
 
 variable "transit_vpc_details" {
   description = "The VPC details for transit VPCs"
-  type        = object({ dr = any })
+  type = object({
+    primary = any
+    dr      = any
+  })
 }
 
 variable "dev_vpc_details" {
   description = "The VPC details for devlopment VPCs"
-  type        = object({ dr = any })
+  type = object({
+    primary = any
+    dr      = any
+  })
 }
 
 variable "uat_vpc_details" {
   description = "The VPC details for UAT VPCs"
-  type        = object({ dr = any })
+  type = object(
+    {
+      primary = any
+      dr      = any
+  })
 }
 
 variable "prod_vpc_details" {
   description = "The VPC details for production VPCs"
-  type        = object({ dr = any })
-  # type = object({
-  #   dr = object({
-  #     cidr_block        = string
-  #     environment_affix = string
-  #     subnets = map(object({
-  #       availability_zone = string
-  #       cidr = object({
-  #         newbits = number
-  #         netnum  = number
-  #       })
-  #     }))
-  #     subnet_shares = map(object({
-  #       target_name               = string
-  #       allow_external_principals = bool
-  #       principal                 = string
-  #       subnets = map(object({
-  #         description = string
-  #       }))
-  #     }))
-  #     transited_subnets = list(string)
-  #   })
-  # })
+  type = object({
+    primary = any
+    dr      = any
+  })
 }

@@ -1,4 +1,87 @@
 dev_vpc_details = {
+  primary = {
+    cidr_block        = "10.98.16.0/20"
+    environment_affix = "dev"
+    subnets = {
+      amt-dev-web-subnet-a = {
+        availability_zone = "us-east-1a"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 0) = 10.98.16.0/23
+          newbits = 3
+          netnum  = 0
+        }
+      }
+      amt-dev-app-subnet-a = {
+        availability_zone = "us-east-1a"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 1) = 10.98.18.0/23
+          newbits = 3
+          netnum  = 1
+        }
+      }
+      amt-dev-data-subnet-a = {
+        availability_zone = "us-east-1a"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 2) = 10.98.20.0/23
+          newbits = 3
+          netnum  = 2
+        }
+      }
+      amt-dev-omnius-subnet-a = {
+        availability_zone = "us-east-1a"
+        cidr = { # cidrsubnet("10.98.16.0/20", 4, 6) = 10.98.22.0/24
+          newbits = 4
+          netnum  = 6
+        }
+      }
+      amt-dev-omnius-subnet-b = {
+        availability_zone = "us-east-1b"
+        cidr = { # cidrsubnet("10.98.16.0/20", 4, 7) = 10.98.23.0/24
+          newbits = 4
+          netnum  = 7
+        }
+      }
+      amt-dev-web-subnet-b = {
+        availability_zone = "us-east-1b"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 4) = 10.98.24.0/23
+          newbits = 3
+          netnum  = 4
+        }
+      }
+      amt-dev-app-subnet-b = {
+        availability_zone = "us-east-1b"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 5) = 10.98.26.0/23
+          newbits = 3
+          netnum  = 5
+        }
+      }
+      amt-dev-data-subnet-b = {
+        availability_zone = "us-east-1b"
+        cidr = { # cidrsubnet("10.98.16.0/20", 3, 6) = 10.98.28.0/23
+          newbits = 3
+          netnum  = 6
+        }
+      }
+    }
+    subnet_shares = {
+      omnius = {
+        target_name               = "omnius_dev"
+        allow_external_principals = false
+        principal                 = "421354678477"
+        subnets = {
+          amt-dev-omnius-subnet-a = {
+            description = "Subnet zone A for the omni:us development environment"
+          }
+          amt-dev-omnius-subnet-b = {
+            description = "Subnet zone B for the omni:us development environment"
+          }
+        }
+      }
+    }
+    transited_subnets = [
+      "amt-dev-app-subnet-a",
+      "amt-dev-app-subnet-b"
+    ],
+    public_subnets = []
+    nat_subnets    = {}
+  }
   dr = {
     cidr_block        = "10.200.16.0/20"
     environment_affix = "dr-dev"
@@ -79,6 +162,7 @@ dev_vpc_details = {
       "amt-dr-dev-app-subnet-a",
       "amt-dr-dev-app-subnet-b"
     ],
-    internet_connected_subnets = {}
+    public_subnets = []
+    nat_subnets    = {}
   }
 }
