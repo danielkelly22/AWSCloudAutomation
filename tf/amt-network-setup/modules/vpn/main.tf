@@ -4,7 +4,7 @@ resource "aws_customer_gateway" "main_gateway" {
   type       = "ipsec.1"
 
   tags = {
-    Name = "main-amtrust-gateway"
+    Name = "amt-${var.environment_affix}-customer-gateway"
   }
 }
 ## aws_vpn_connection can only be created if the remote end is also configured.
@@ -16,11 +16,14 @@ resource "aws_vpn_connection" "main_vpn_connection" {
   transit_gateway_id  = var.transit_gateway_id
   type                = aws_customer_gateway.main_gateway.type
   static_routes_only  = true
+
+
+  # todo better naming after we verify this won't break the VPN
   tags = {
     Name = "main-amtrust-aws-vpn"
   }
+  # tags = merge(var.tags, {
+  #   Name = "amt-${var.environment_affix}-vpn-connection"
+  # })
 }
 
-output "vpn_connection_id" {
-  value = aws_vpn_connection.main_vpn_connection.id
-}

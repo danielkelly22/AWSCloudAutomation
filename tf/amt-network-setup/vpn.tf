@@ -1,7 +1,11 @@
-# module "vpn" {
-#   source = "./modules/vpn"
-#   providers = {
-#     aws = aws.shared
-#   }
-#   transit_gateway_id = module.transit-gateway.transit_gateway_id
-# }
+module "vpn" {
+  providers = {
+    aws = aws.shared
+  }
+
+  source = "./modules/vpn"
+
+  environment_affix  = "shared"
+  transit_gateway_id = module.tgw.tgw_id
+  tags               = module.shared_tags.tags
+}
