@@ -24,30 +24,30 @@ module "prod_tags" {
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = "prod" #var.prod_vpc_details.primary.environment_affix
+  environment          = var.prod_vpc_details.primary.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
   terraform_workspace  = var.terraform_workspace
 }
 
-# module "prod_vpc" {
-#   providers = {
-#     aws        = aws.prod
-#     aws.shared = aws.shared
-#   }
+module "prod_vpc" {
+  providers = {
+    aws        = aws.prod
+    aws.shared = aws.shared
+  }
 
-#   source = "./modules/vpc"
+  source = "./modules/vpc"
 
-#   transit_gateway_id = module.transit-gateway.transit_gateway_id
-#   vpc_details        = var.prod_vpc_details.primary
-#   aws_routable_cidr_blocks = {
-#     dr-shared-services = local.all_cidr_addresses.shared.primary
-#     dr-transit         = local.all_cidr_addresses.transit.primary
-#   }
+  transit_gateway_id = module.tgw.tgw_id
+  vpc_details        = var.prod_vpc_details.primary
+  aws_routable_cidr_blocks = {
+    shared-services = local.all_cidr_addresses.shared.primary
+    transit         = local.all_cidr_addresses.transit.primary
+  }
 
-#   tags = module.prod_tags.tags
-# }
+  tags = module.prod_tags.tags
+}
 
 #-----------------------------------------------
 # DR
