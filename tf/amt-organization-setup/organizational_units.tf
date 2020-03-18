@@ -35,20 +35,12 @@ resource "aws_organizations_organizational_unit" "quarantine" {
 }
 
 locals {
-  organizational_units = zipmap([
-    "nonprod",
-    "sandbox",
-    "production",
-    "vendormanaged",
-    "core",
-    "quarantine"
-    ],
-    [
-      aws_organizations_organizational_unit.nonprod.id,
-      aws_organizations_organizational_unit.sandbox.id,
-      aws_organizations_organizational_unit.production.id,
-      aws_organizations_organizational_unit.vendormanaged.id,
-      aws_organizations_organizational_unit.core.id,
-      aws_organizations_organizational_unit.quarantine.id
-  ])
+  organizational_units = {
+    nonprod       = aws_organizations_organizational_unit.nonprod.id
+    sandbox       = aws_organizations_organizational_unit.sandbox.id
+    production    = aws_organizations_organizational_unit.production.id
+    vendormanaged = aws_organizations_organizational_unit.vendormanaged.id
+    core          = aws_organizations_organizational_unit.core.id
+    quarantine    = aws_organizations_organizational_unit.quarantine.id
+  }
 }
