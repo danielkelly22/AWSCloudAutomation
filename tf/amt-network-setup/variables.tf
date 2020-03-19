@@ -319,7 +319,7 @@ variable "palo_ami" {
   default = "ami-050725600cf371a1c"
 }
 
-variable "ServerKeyName" {
+variable "palo_key_name" {
   type    = string
   default = "paloalto-vmseries"
 }
