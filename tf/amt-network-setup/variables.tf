@@ -302,3 +302,24 @@ variable "prod_vpc_details" {
     dr      = any
   })
 }
+
+variable "dc_subnets" {
+  type = map
+  default = {
+    subnet_a_id = "subnet-0d854a74a97f6e236"
+    subnet_b_id = "subnet-0018c69704ac4e06d"
+  }
+}
+variable "dc_ami_id" { default = "ami-047c2af78a8dc4a91" }
+
+variable "dc_instance_size" { default = "t2.large" }
+
+variable "palo_ami" {
+  type    = string
+  default = "ami-050725600cf371a1c"
+}
+
+variable "palo_key_name" {
+  type    = string
+  default = "paloalto-vmseries"
+}
