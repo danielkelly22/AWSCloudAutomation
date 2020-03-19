@@ -12,7 +12,7 @@ ansible_ssh_private_key_file=~/.ssh/TFE_key.pem
 [tfekey]
 ip-10-98-4-213.ec2.internal ansible_user=centos ansible_python_interpreter="/usr/bin/python"
 ip-10-98-4-77.ec2.internal ansible_user=centos ansible_python_interpreter="/usr/bin/python"
-ip-10-98-4-122.ec2.internal ansible_user=ubuntu ansible_python_interpreter="/usr/bin/python3"
+ip-10-98-5-167.ec2.internal ansible_user=ubuntu ansible_python_interpreter="/usr/bin/python3"
 
 #[omnius-bastion:vars]
 #ansible_ssh_private_key_file=~/.ssh/<GET THE KEYS>
