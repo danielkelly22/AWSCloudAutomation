@@ -37,26 +37,26 @@ transit_vpc_details = {
     }
   }
   dr = {
-    cidr_block        = "10.200.8.0/21"
+    cidr_block        = "10.98.136.0/21"
     environment_affix = "dr-transit"
     subnets = {
       amt-dr-transit-public-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.8.0/21", 3, 0) = 10.200.8.0/24
+        cidr = { # cidrsubnet("10.98.136.0/21", 3, 0) = 10.98.136.0/24
           newbits = 3
           netnum  = 0
         }
       }
       amt-dr-transit-private-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.8.0/21", 3, 1) = 10.200.9.0/24
+        cidr = { # cidrsubnet("10.98.136.0/21", 3, 1) = 10.98.131.0/24
           newbits = 3
           netnum  = 1
         }
       }
       amt-dr-transit-mgmt-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.8.0/21", 5, 8) = 10.200.10.0/26
+        cidr = { # cidrsubnet("10.98.136.0/21", 5, 8) = 10.98.139.0/26
           newbits = 5
           netnum  = 8
         }

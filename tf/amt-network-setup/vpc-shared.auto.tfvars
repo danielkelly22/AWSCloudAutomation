@@ -72,47 +72,47 @@ shared_vpc_details = {
     nat_subnets = {}
   }
   dr = {
-    cidr_block        = "10.200.0.0/21"
+    cidr_block        = "10.98.128.0/21"
     environment_affix = "dr-shared"
     subnets = {
       amt-dr-shared-core-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.0.0/21", 2, 0) = 10.200.0.0/23
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 0) = 10.98.128.0/23
           newbits = 2
           netnum  = 0
         }
       }
       amt-dr-shared-core-subnet-b = {
         availability_zone = "us-east-2b"
-        cidr = { # cidrsubnet("10.200.0.0/21", 2, 1) = 10.200.2.0/23
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 1) = 10.98.130.0/23
           newbits = 2
           netnum  = 1
         }
       }
       amt-dr-shared-jump-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.0.0/21", 3, 4) = 10.200.4.0/24
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 4) = 10.98.132.0/24
           newbits = 3
           netnum  = 4
         }
       }
       amt-dr-shared-jump-subnet-b = {
         availability_zone = "us-east-2b"
-        cidr = { # cidrsubnet("10.200.0.0/21", 4, 5) = 10.200.5.0/24
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 5) = 10.98.133.0/24
           newbits = 3
           netnum  = 5
         }
       }
       amt-dr-shared-trainer-subnet-a = {
         availability_zone = "us-east-2a"
-        cidr = { # cidrsubnet("10.200.0.0/21", 4, 6) = 10.200.6.0/24
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 6) = 10.98.134.0/24
           newbits = 3
           netnum  = 6
         }
       }
       amt-dr-shared-trainer-subnet-b = {
         availability_zone = "us-east-2b"
-        cidr = { # cidrsubnet("10.200.0.0/21", 4, 7) = 10.200.7.0/24
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 7) = 10.98.135.0/24
           newbits = 3
           netnum  = 7
         }
