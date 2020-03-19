@@ -63,7 +63,9 @@ variable "internet_routable_cidr_blocks" {
 variable "aws_routable_cidr_blocks" {
   description = "The CIDR blocks for AWS VPCs"
   type        = map(string)
-  default     = {}
+  default = {
+    sharedsvc = "10.200.0.0/21"
+  }
 }
 
 variable "vpn_routable_cidr_blocks" {

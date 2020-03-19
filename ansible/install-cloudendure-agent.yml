@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Check for cloud endure agent
+      stat:
+        path : "/var/lib/cloudendure/runAgent.sh"
+      register: cloudendure_agent
+
+    - name: Amazon CloudEndure Agent Install
+      block:
+      - name: Amazon CloudEndure Agent - download
+        get_url:
+          url: "https://console.cloudendure.com/installer_linux.py"
+          dest: "/home/{{ ansible_user }}/"
+      - name: Amazon CloudEndure Agent - install
+        shell: "sudo {{ ansible_python_interpreter }} /home/{{ ansible_user }}/installer_linux.py -t {{ cloudendure_install_token }} --no-prompt"
+      - name: Cleanup
+        file:
+          path: "/home/{{ ansible_user }}/installer_linux.py"
+          state: absent        
+      when: cloudendure_agent.stat.exists == False
+
+    
