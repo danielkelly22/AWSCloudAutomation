@@ -179,18 +179,18 @@
 # # }
 
 
-module "firewalls" {
-  providers = {
-    aws = aws.shared
-  }
+# module "firewalls" {
+#   providers = {
+#     aws = aws.shared
+#   }
 
-  source = "./modules/firewall"
+#   source = "./modules/firewall"
 
-  palo_ami             = var.palo_ami
-  server_key_name      = var.palo_key_name
-  public_subnet_id     = module.transit_vpc.subnet_ids["amt-transit-public-subnet-a"]
-  private_subnet_id    = module.transit_vpc.subnet_ids["amt-transit-private-subnet-a"]
-  management_subnet_id = module.transit_vpc.subnet_ids["amt-transit-mgmt-subnet-a"]
+#   palo_ami             = var.palo_ami
+#   server_key_name      = var.palo_key_name
+#   public_subnet_id     = module.transit_vpc.subnet_ids["amt-transit-public-subnet-a"]
+#   private_subnet_id    = module.transit_vpc.subnet_ids["amt-transit-private-subnet-a"]
+#   management_subnet_id = module.transit_vpc.subnet_ids["amt-transit-mgmt-subnet-a"]
 
-  tags = module.transit_tags.tags
-}
+#   tags = module.transit_tags.tags
+# }
