@@ -83,7 +83,7 @@ dev_vpc_details = {
     nat_subnets    = {}
   }
   dr = {
-    cidr_block        = "10.200.16.0/20"
+    cidr_block        = "10.98.144.0/20"
     environment_affix = "dr-dev"
     subnets = {
       amt-dr-dev-web-subnet-a = {
