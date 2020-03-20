@@ -43,7 +43,7 @@ resource "aws_route_table" "egress_public" {
 
     content {
       cidr_block = route.value
-      gateway_id = length(aws_internet_gateway.internet_gateways) > 0 ? aws_internet_gateway.internet_gateways[each.key].id : ""
+      gateway_id = aws_internet_gateway.internet_gateways[each.key].id
     }
   }
 
