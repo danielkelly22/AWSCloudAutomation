@@ -42,8 +42,8 @@ module "dev_vpc" {
   transit_gateway_id = module.tgw.tgw_id
   vpc_details        = var.dev_vpc_details.primary
   aws_routable_cidr_blocks = {
-    dr-shared-services = local.all_cidr_addresses.shared.primary
-    dr-transit         = local.all_cidr_addresses.transit.primary
+    shared-services = local.all_cidr_addresses.shared.primary
+    transit         = local.all_cidr_addresses.transit.primary
   }
 
   tags = module.dev_tags.tags

@@ -73,14 +73,14 @@ uat_vpc_details = {
     nat_subnets    = {}
   }
   dr = {
-    cidr_block        = "10.200.32.0/20"
+    cidr_block        = "10.98.160.0/20"
     environment_affix = "dr-uat"
     subnets = {
       amt-dr-uat-web-subnet-a = {
         availability_zone = "us-east-2a"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 0)
-        # 10.200.32.0/23
+        # 10.98.160.0/23
         cidr = {
           newbits = 3
           netnum  = 0
@@ -90,7 +90,7 @@ uat_vpc_details = {
         availability_zone = "us-east-2a"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 1)
-        # 10.200.34.0/23
+        # 10.98.162.0/23
         cidr = {
           newbits = 3
           netnum  = 1
@@ -100,7 +100,7 @@ uat_vpc_details = {
         availability_zone = "us-east-2a"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 2)
-        # 10.200.36.0/23
+        # 10.98.164.0/23
         cidr = {
           newbits = 3
           netnum  = 2
@@ -110,7 +110,7 @@ uat_vpc_details = {
         availability_zone = "us-east-2b"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 4)
-        # 10.200.40.0/23
+        # 10.98.166.0/23
         cidr = {
           newbits = 3
           netnum  = 4
@@ -120,7 +120,7 @@ uat_vpc_details = {
         availability_zone = "us-east-2b"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 5)
-        # 10.200.42.0/23
+        # 10.98.170.0/23
         cidr = {
           newbits = 3
           netnum  = 5
@@ -130,7 +130,7 @@ uat_vpc_details = {
         availability_zone = "us-east-2b"
 
         # cidrsubnet(var.uat_vpc_details.dr.cidr_block, 3, 6)
-        # 10.200.44.0/23
+        # 10.98.172.0/23
         cidr = {
           newbits = 3
           netnum  = 6
