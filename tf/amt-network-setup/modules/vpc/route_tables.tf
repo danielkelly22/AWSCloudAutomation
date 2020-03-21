@@ -21,15 +21,6 @@ resource "aws_default_route_table" "default" {
     }
   }
 
-  dynamic "route" {
-    for_each = local.s3_endpoint
-
-    content {
-      cidr_block = aws_vpc_endpoint.s3[route.key].prefix_list_id
-      gateway_id = aws_vpc_endpoint.s3[route.key].id
-    }
-  }
-
   tags = merge(var.tags, {
     Name    = "amt-${var.vpc_details.environment_affix}-default-routes"
     discard = data.null_data_source.hacky_way_to_ensure_that_the_accepter_completes.outputs.tgw_attachment_id
