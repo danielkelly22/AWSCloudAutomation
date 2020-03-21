@@ -7,6 +7,10 @@ resource "aws_vpc_endpoint" "s3" {
 
   vpc_id       = aws_vpc.vpc.id
   service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
+
+  tags = merge(var.tags, {
+    Name = "amt-${var.vpc_details.environment_affix}"
+  })
 }
 
 resource "aws_vpc_endpoint_route_table_association" "default" {
