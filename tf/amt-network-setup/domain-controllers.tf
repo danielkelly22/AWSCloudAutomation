@@ -6,8 +6,8 @@ resource "aws_instance" "dc_a" {
   subnet_id         = var.dc_subnets.subnet_a_id
   key_name          = "sharedvpckeys"
 
-  lifecycle = {
-    ignore = [iam_instance_profile]
+  lifecycle {
+    ignore_changes = [iam_instance_profile]
   }
 
   tags = merge(module.shared_tags.tags, {
@@ -23,8 +23,8 @@ resource "aws_instance" "dc_b" {
   subnet_id         = var.dc_subnets.subnet_b_id
   key_name          = "sharedvpckeys"
 
-  lifecycle = {
-    ignore = [iam_instance_profile]
+  lifecycle {
+    ignore_changes = [iam_instance_profile]
   }
 
   tags = merge(module.shared_tags.tags, {
