@@ -4,6 +4,8 @@ provider "aws" {
   alias = "shared"
 }
 
+data "aws_region" "current" {}
+
 resource "aws_vpc" "vpc" {
   cidr_block                       = var.vpc_details.cidr_block
   instance_tenancy                 = var.vpc_defaults.instance_tenancy
