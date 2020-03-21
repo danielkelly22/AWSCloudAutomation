@@ -18,7 +18,8 @@ module "log_arch_tags" {
     aws = aws.logarch
   }
 
-  source = "tfe.amtrustgroup.com/AmTrust/tags/aws"
+  source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
+  version = ">= 0.3.3"
 
   business_unit        = var.cloud_governance_business_unit
   environment          = local.logarchacct.environment_affix
@@ -94,27 +95,18 @@ resource "aws_s3_bucket_public_access_block" "log_archive" {
 
 module "log_arch_baseline" {
   providers = {
-    aws         = aws.logarch
-    aws.logarch = aws.logarch
+    aws          = aws.logarch
+    aws.logarch  = aws.logarch
+    aws.security = aws.security
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = ">= 0.3.0"
+  version = ">= 0.4.0"
 
-  environment_short_name = local.logarchacct.environment_affix
-  log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket
+  environment_affix     = local.logarchacct.environment_affix
+  log_archive_s3_bucket = aws_s3_bucket.log_archive.bucket
+  account_email         = local.logarchacct.email
+  guardduty_master_id   = module.security_baseline.guardduty_id
 
   tags = module.log_arch_tags.tags
-}
-
-module "guard_duty_logarch" {
-  providers = {
-    aws          = aws.logarch
-    aws.security = aws.security
-  }
-  source = "./modules/guard_duty"
-
-  master_guard_duty_id         = aws_guardduty_detector.security.id
-  master_guard_duty_account_id = aws_guardduty_detector.security.account_id
-  account_email                = local.logarchacct.email
 }

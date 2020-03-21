@@ -17,7 +17,8 @@ module "omnius_prod_tags" {
     aws = aws.omniusprod
   }
 
-  source = "tfe.amtrustgroup.com/AmTrust/tags/aws"
+  source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
+  version = ">= 0.3.3"
 
   business_unit        = var.cloud_governance_business_unit
   environment          = local.omniusprodacct.environment_affix
@@ -30,27 +31,60 @@ module "omnius_prod_tags" {
 
 module "omnius_prod_baseline" {
   providers = {
-    aws         = aws.omniusprod
-    aws.logarch = aws.logarch
+    aws          = aws.omniusprod
+    aws.logarch  = aws.logarch
+    aws.security = aws.security
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = ">= 0.3.0"
+  version = ">= 0.4.0"
 
-  environment_short_name = local.omniusprodacct.environment_affix
-  log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket
+  environment_affix     = local.omniusprodacct.environment_affix
+  log_archive_s3_bucket = aws_s3_bucket.log_archive.bucket
+  account_email         = local.omniusprodacct.email
+  guardduty_master_id   = module.security_baseline.guardduty_id
 
   tags = module.omnius_prod_tags.tags
 }
 
-module "guard_duty_omniusprod" {
-  providers = {
-    aws          = aws.omniusprod
-    aws.security = aws.security
-  }
-  source = "./modules/guard_duty"
+resource "aws_budgets_budget" "budget_master_to_shared" {
+  name              = "amt-master-omniusprod-budget"
+  budget_type       = "COST"
+  limit_amount      = "10000.0"
+  limit_unit        = "USD"
+  time_period_start = "2020-01-01_00:00"
+  time_unit         = "MONTHLY"
 
-  master_guard_duty_id         = aws_guardduty_detector.security.id
-  master_guard_duty_account_id = aws_guardduty_detector.security.account_id
-  account_email                = local.omniusprodacct.email
+  cost_filters = {
+    LinkedAccount = local.omniusnonprodacct.account_number
+  }
+
+  cost_types {
+    include_credit = false
+    include_refund = false
+  }
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = 110
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "FORECASTED"
+    subscriber_email_addresses = ["michael.meadows@insight.com", "joseph.valdez@amtrustgroup.com"]
+  }
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = 100
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "FORECASTED"
+    subscriber_email_addresses = ["michael.meadows@insight.com", "joseph.valdez@amtrustgroup.com"]
+  }
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = 80
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "FORECASTED"
+    subscriber_email_addresses = ["michael.meadows@insight.com", "joseph.valdez@amtrustgroup.com"]
+  }
 }
