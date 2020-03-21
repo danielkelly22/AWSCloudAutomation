@@ -37,7 +37,7 @@ module "staging_baseline" {
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = ">= 0.4.0"
+  version = ">= 0.5.0"
 
   environment_affix     = local.stagingacct.environment_affix
   log_archive_s3_bucket = aws_s3_bucket.log_archive.bucket

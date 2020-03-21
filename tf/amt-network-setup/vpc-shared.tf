@@ -82,15 +82,3 @@ module "dr_shared_vpc" {
 
   tags = module.dr_shared_tags.tags
 }
-
-# output "s3_endpoint" {
-#   value = module.shared_vpc.s3_endpoint
-# }
-
-# output "public_route_flat" {
-#   value = module.shared_vpc.public_route_flat
-# }
-
-# output "any_public_egress" {
-#   value = module.shared_vpc.any_public_egress
-# }

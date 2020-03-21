@@ -18,18 +18,6 @@ locals {
   ])
 }
 
-# output "s3_endpoint" {
-#   value = local.s3_endpoint
-# }
-
-# output "public_route_flat" {
-#   value = local.public_s3_route_tables
-# }
-
-# output "any_public_egress" {
-#   value = local.any_public_egress
-# }
-
 resource "aws_vpc_endpoint" "s3" {
   for_each = local.s3_endpoint
 

@@ -37,12 +37,13 @@ module "omnius_prod_baseline" {
   }
 
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
-  version = ">= 0.4.0"
+  version = ">= 0.5.0"
 
-  environment_affix     = local.omniusprodacct.environment_affix
-  log_archive_s3_bucket = aws_s3_bucket.log_archive.bucket
-  account_email         = local.omniusprodacct.email
-  guardduty_master_id   = module.security_baseline.guardduty_id
+  environment_affix      = local.omniusprodacct.environment_affix
+  log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket
+  account_email          = local.omniusprodacct.email
+  guardduty_master_id    = module.security_baseline.guardduty_id
+  block_public_s3_access = false
 
   tags = module.omnius_prod_tags.tags
 }
