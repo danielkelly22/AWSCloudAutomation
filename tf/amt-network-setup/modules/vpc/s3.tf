@@ -63,5 +63,5 @@ resource "aws_security_group_rule" "s3" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  prefix_list_ids   = aws_vpc_endpoint.s3[each.value].prefix_list_id
+  prefix_list_ids   = [aws_vpc_endpoint.s3[each.value].prefix_list_id]
 }
