@@ -1,5 +1,5 @@
 locals {
-  s3_endpoint = var.vpc_defaults.provision_s3_vpc_endpoint ? { vpc_s3_endpoint = "true" } : {}
+  s3_endpoint = toset(var.vpc_defaults.provision_s3_vpc_endpoint ? ["vpc_s3_endpoint"] : [])
   public_s3_route_tables = flatten([
     for public_egress in local.any_public_egress : [
       for endpoint, endpoint_value in local.s3_endpoint : {
