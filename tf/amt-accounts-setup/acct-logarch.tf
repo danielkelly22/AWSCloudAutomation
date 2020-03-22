@@ -103,10 +103,11 @@ module "log_arch_baseline" {
   source  = "tfe.amtrustgroup.com/AmTrust/security-baseline/aws"
   version = ">= 0.5.0"
 
-  environment_affix     = local.logarchacct.environment_affix
-  log_archive_s3_bucket = aws_s3_bucket.log_archive.bucket
-  account_email         = local.logarchacct.email
-  guardduty_master_id   = module.security_baseline.guardduty_id
+  environment_affix      = local.logarchacct.environment_affix
+  log_archive_s3_bucket  = aws_s3_bucket.log_archive.bucket
+  account_email          = local.logarchacct.email
+  guardduty_master_id    = module.security_baseline.guardduty_id
+  block_public_s3_access = false
 
   tags = module.log_arch_tags.tags
 }
