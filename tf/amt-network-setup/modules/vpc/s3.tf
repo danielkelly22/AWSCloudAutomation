@@ -16,6 +16,7 @@ locals {
       }
     ]
   ])
+
 }
 
 resource "aws_vpc_endpoint" "s3" {
@@ -52,4 +53,15 @@ resource "aws_vpc_endpoint_route_table_association" "private" {
 
   route_table_id  = aws_route_table.egress_private[each.key].id
   vpc_endpoint_id = aws_vpc_endpoint.s3[each.value].id
+}
+
+resource "aws_security_group_rule" "s3" {
+  for_each = local.s3_endpoint
+
+  security_group_id = aws_default_security_group.default.id
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  prefix_list_ids   = aws_vpc_endpoint.s3[each.value].prfix_list_id
 }
