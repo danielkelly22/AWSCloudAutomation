@@ -91,8 +91,8 @@ module "sandbox_transit_tags" {
 module "sandbox_transit_vpc" {
   source = "./modules/vpc"
   providers = {
-    aws         = aws.sandbox
-    aws.sandbox = aws.sandbox
+    aws        = aws.sandbox
+    aws.shared = aws.sandbox
   }
 
   transit_gateway_id                 = module.sandbox_tgw.tgw_id

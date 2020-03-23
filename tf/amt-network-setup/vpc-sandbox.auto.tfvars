@@ -24,13 +24,13 @@ sandbox_vpc_details = {
           netnum  = 2
         }
       }
-      amt-sandbox-eks-subnet = {
-        availability_zone = "us-east-1b"
-        cidr = { # cidrsubnet("10.98.0.0/21", 3, 5) = 10.98.5.0/24
-          newbits = 2
-          netnum  = 3
-        }
-      }
+      # amt-sandbox-eks-subnet = {
+      #   availability_zone = "us-east-1b"
+      #   cidr = { # cidrsubnet("10.98.0.0/21", 3, 5) = 10.98.5.0/24
+      #     newbits = 2
+      #     netnum  = 3
+      #   }
+      # }
     }
     subnet_shares = {}
     transited_subnets = [

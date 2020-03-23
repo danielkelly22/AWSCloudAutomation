@@ -14,7 +14,7 @@ module "sandbox_tags" {
 
   application_name     = var.networking_application_name
   business_unit        = var.networking_business_unit
-  environment          = var.shared_vpc_details.primary.environment_affix
+  environment          = var.shared_vpc_details.sandbox.environment_affix
   cost_center          = var.networking_cost_center
   application_owner    = var.networking_team_email
   infrastructure_owner = var.cloud_governance_email
@@ -24,8 +24,8 @@ module "sandbox_tags" {
 module "sandbox_vpc" {
   source = "./modules/vpc"
   providers = {
-    aws         = aws.sandbox
-    aws.sandbox = aws.sandbox
+    aws        = aws.sandbox
+    aws.shared = aws.sandbox
   }
 
   transit_gateway_id                 = module.sandbox_tgw.tgw_id

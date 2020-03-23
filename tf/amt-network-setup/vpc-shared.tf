@@ -13,6 +13,7 @@ provider "aws" {
   }
 }
 
+
 #-----------------------------------------------
 # Primary
 #-----------------------------------------------
@@ -86,7 +87,7 @@ module "dr_shared_vpc" {
 # Sandbox
 #-----------------------------------------------
 module "sandbox_shared_tags" {
-  providers = { aws = aws.shared }
+  providers = { aws = aws.sandbox }
 
   source  = "tfe.amtrustgroup.com/AmTrust/tags/aws"
   version = ">= 0.3.1"
@@ -103,8 +104,8 @@ module "sandbox_shared_tags" {
 module "sandbox_shared_vpc" {
   source = "./modules/vpc"
   providers = {
-    aws        = aws.shared
-    aws.shared = aws.shared
+    aws        = aws.sandbox
+    aws.shared = aws.sandbox
   }
 
   transit_gateway_id                 = module.sandbox_tgw.tgw_id

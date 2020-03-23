@@ -144,7 +144,7 @@ shared_vpc_details = {
     nat_subnets = {}
   }
   sandbox = {
-    cidr_block        = "10.98.128.0/21"
+    cidr_block        = "10.201.144.0/22"
     environment_affix = "sandbox"
     subnets = {
       amt-sandbox-core-subnet-a = {
@@ -191,19 +191,19 @@ shared_vpc_details = {
       }
     }
     subnet_shares = {
-      omnius = {
-        target_name               = "omnius_nonprod"
-        allow_external_principals = false
-        principal                 = "421354678477"
-        subnets = {
-          amt-sandbox-trainer-subnet-a = {
-            description = "Subnet zone A for the omni:us trainer environment"
-          }
-          amt-sandbox-trainer-subnet-b = {
-            description = "Subnet zone B for the omni:us trainer environment"
-          }
-        }
-      }
+      # omnius = {
+      #   target_name               = "omnius_nonprod"
+      #   allow_external_principals = false
+      #   principal                 = "421354678477"
+      #   subnets = {
+      #     amt-sandbox-trainer-subnet-a = {
+      #       description = "Subnet zone A for the omni:us trainer environment"
+      #     }
+      #     amt-sandbox-trainer-subnet-b = {
+      #       description = "Subnet zone B for the omni:us trainer environment"
+      #     }
+      #   }
+      # }
     }
     transited_subnets = [
       "amt-sandbox-jump-subnet-a",

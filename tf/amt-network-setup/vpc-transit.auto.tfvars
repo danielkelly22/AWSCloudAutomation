@@ -1,6 +1,6 @@
 transit_vpc_details = {
   primary = {
-    cidr_block        = "10.98.8.0/21"
+    cidr_block        = "10.201.148.0/22"
     environment_affix = "transit"
     subnets = {
       amt-transit-public-subnet-a = {
@@ -105,9 +105,9 @@ transit_vpc_details = {
     ],
     public_subnets = ["amt-sandbox-transit-public-subnet-a"],
     nat_subnets = {
-      amt-dr-transit-public-subnet-a  = "nat"
-      amt-dr-transit-private-subnet-a = "amt-sandbox-transit-public-subnet-a"
-      amt-dr-transit-mgmt-subnet-a    = "amt-sandbox-transit-public-subnet-a"
+      amt-sandbox-transit-public-subnet-a  = "nat"
+      amt-sandbox-transit-private-subnet-a = "amt-sandbox-transit-public-subnet-a"
+      amt-sandbox-transit-mgmt-subnet-a    = "amt-sandbox-transit-public-subnet-a"
     }
   }
 }
