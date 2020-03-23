@@ -103,7 +103,7 @@ transit_vpc_details = {
     transited_subnets = [
       "amt-sandbox-transit-private-subnet-a"
     ],
-    public_subnets = ["amt-sandbox-transit-public-subnet-a"],
+    public_subnets = [],
     nat_subnets = {
       amt-dr-transit-public-subnet-a  = "nat"
       amt-dr-transit-private-subnet-a = "amt-sandbox-transit-public-subnet-a"
