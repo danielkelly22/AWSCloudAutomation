@@ -143,4 +143,76 @@ shared_vpc_details = {
     ]
     nat_subnets = {}
   }
+  sandbox = {
+    cidr_block        = "10.201.144.0/22"
+    environment_affix = "sandbox"
+    subnets = {
+      amt-sandbox-core-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 0) = 10.98.128.0/23
+          newbits = 2
+          netnum  = 0
+        }
+      }
+      amt-sandbox-core-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 1) = 10.98.130.0/23
+          newbits = 2
+          netnum  = 1
+        }
+      }
+      amt-sandbox-jump-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 4) = 10.98.132.0/24
+          newbits = 3
+          netnum  = 4
+        }
+      }
+      amt-sandbox-jump-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 5) = 10.98.133.0/24
+          newbits = 3
+          netnum  = 5
+        }
+      }
+      amt-sandbox-trainer-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 6) = 10.98.134.0/24
+          newbits = 3
+          netnum  = 6
+        }
+      }
+      amt-sandbox-trainer-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 7) = 10.98.135.0/24
+          newbits = 3
+          netnum  = 7
+        }
+      }
+    }
+    subnet_shares = {
+      # omnius = {
+      #   target_name               = "omnius_nonprod"
+      #   allow_external_principals = false
+      #   principal                 = "421354678477"
+      #   subnets = {
+      #     amt-sandbox-trainer-subnet-a = {
+      #       description = "Subnet zone A for the omni:us trainer environment"
+      #     }
+      #     amt-sandbox-trainer-subnet-b = {
+      #       description = "Subnet zone B for the omni:us trainer environment"
+      #     }
+      #   }
+      # }
+    }
+    transited_subnets = [
+      "amt-sandbox-jump-subnet-a",
+      "amt-sandbox-jump-subnet-b"
+    ],
+    public_subnets = [
+      "amt-sandbox-core-subnet-a",
+      "amt-sandbox-core-subnet-b"
+    ]
+    nat_subnets = {}
+  }
 }

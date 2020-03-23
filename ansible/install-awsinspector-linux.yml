@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Check for inspector agent
+      stat:
+        path : "/opt/aws/awsagent/bin/awsagent"
+      register: inspector_agent
+
+    - name: Amazon Inspector Agent Install
+      block:
+      - name: Amazon Inspector Agent - download
+        get_url:
+          url: "https://inspector-agent.amazonaws.com/linux/latest/install"
+          dest: "/home/{{ ansible_user }}/"
+      - name: Amazon Inspector Agent - install
+        shell: "sudo bash install"
+      - name: Cleanup
+        file:
+          path: "/home/{{ ansible_user }}/install"
+          state: absent        
+      when: inspector_agent.stat.exists == False
+
+    
