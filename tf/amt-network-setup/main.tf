@@ -46,10 +46,7 @@ locals {
       primary = var.uat_vpc_details.primary.cidr_block
       dr      = var.uat_vpc_details.dr.cidr_block
     }
-    # sandbox = {
-    #   primary = var.sandbox_vpc_details.primary.cidr_block
-    # }
-    sandbox-shared = {
+    sandbox = {
       primary = var.sandbox_vpc_details.primary.cidr_block
     }
   }

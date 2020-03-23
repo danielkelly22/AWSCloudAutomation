@@ -99,7 +99,7 @@ module "sandbox_transit_vpc" {
   vpc_details                        = var.transit_vpc_details.sandbox
   skip_gateway_attachment_acceptance = true
   aws_routable_cidr_blocks = {
-    sandbox-shared-services = local.all_cidr_addresses.sandbox-shared.primary
+    sandbox-services = local.all_cidr_addresses.sandbox.primary
   }
 
   tags = module.dr_transit_tags.tags
