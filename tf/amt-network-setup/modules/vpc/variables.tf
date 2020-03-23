@@ -18,6 +18,7 @@ variable "vpc_defaults" {
     enable_classiclink               = bool
     enable_classiclink_dns_support   = bool
     assign_generated_ipv6_cidr_block = bool
+    provision_s3_vpc_endpoint        = bool
   })
   default = {
     instance_tenancy                 = "default"
@@ -26,6 +27,7 @@ variable "vpc_defaults" {
     enable_classiclink               = false
     enable_classiclink_dns_support   = false
     assign_generated_ipv6_cidr_block = false
+    provision_s3_vpc_endpoint        = true
   }
 }
 

@@ -4,6 +4,8 @@ provider "aws" {
   alias = "shared"
 }
 
+data "aws_region" "current" {}
+
 resource "aws_vpc" "vpc" {
   cidr_block                       = var.vpc_details.cidr_block
   instance_tenancy                 = var.vpc_defaults.instance_tenancy
@@ -25,6 +27,7 @@ resource "aws_subnet" "subnets" {
   vpc_id            = aws_vpc.vpc.id
   availability_zone = each.value.availability_zone
   cidr_block        = cidrsubnet(var.vpc_details.cidr_block, each.value.cidr.newbits, each.value.cidr.netnum)
+
   tags = merge(var.tags, {
     Name        = each.key
     environment = var.vpc_details.environment_affix
