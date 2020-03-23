@@ -143,4 +143,76 @@ shared_vpc_details = {
     ]
     nat_subnets = {}
   }
+  sandbox = {
+    cidr_block        = "10.98.128.0/21"
+    environment_affix = "sandbox-shared"
+    subnets = {
+      amt-sandbox-shared-core-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 0) = 10.98.128.0/23
+          newbits = 2
+          netnum  = 0
+        }
+      }
+      amt-sandbox-shared-core-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 2, 1) = 10.98.130.0/23
+          newbits = 2
+          netnum  = 1
+        }
+      }
+      amt-sandbox-shared-jump-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 4) = 10.98.132.0/24
+          newbits = 3
+          netnum  = 4
+        }
+      }
+      amt-sandbox-shared-jump-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 5) = 10.98.133.0/24
+          newbits = 3
+          netnum  = 5
+        }
+      }
+      amt-sandbox-shared-trainer-subnet-a = {
+        availability_zone = "us-east-2a"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 6) = 10.98.134.0/24
+          newbits = 3
+          netnum  = 6
+        }
+      }
+      amt-sandbox-shared-trainer-subnet-b = {
+        availability_zone = "us-east-2b"
+        cidr = { # cidrsubnet("10.98.128.0/21", 3, 7) = 10.98.135.0/24
+          newbits = 3
+          netnum  = 7
+        }
+      }
+    }
+    subnet_shares = {
+      omnius = {
+        target_name               = "omnius_nonprod"
+        allow_external_principals = false
+        principal                 = "421354678477"
+        subnets = {
+          amt-sandbox-shared-trainer-subnet-a = {
+            description = "Subnet zone A for the omni:us trainer environment"
+          }
+          amt-sandbox-shared-trainer-subnet-b = {
+            description = "Subnet zone B for the omni:us trainer environment"
+          }
+        }
+      }
+    }
+    transited_subnets = [
+      "amt-sandbox-shared-jump-subnet-a",
+      "amt-sandbox-shared-jump-subnet-b"
+    ],
+    public_subnets = [
+      "amt-sandbox-shared-core-subnet-a",
+      "amt-sandbox-shared-core-subnet-b"
+    ]
+    nat_subnets = {}
+  }
 }

@@ -25,24 +25,32 @@ locals {
   }
   all_cidr_addresses = {
     shared = {
-      primary = var.shared_vpc_cidr
+      primary = var.shared_vpc_details.primary.cidr_block
       dr      = var.shared_vpc_details.dr.cidr_block
+      sandbox = var.shared_vpc_details.sandbox.cidr_block
     }
     transit = {
-      primary = var.transit_vpc_cidr
+      primary = var.transit_vpc_details.primary.cidr_block
       dr      = var.transit_vpc_details.dr.cidr_block
+      sandbox = var.transit_vpc_details.sandbox.cidr_block
     }
     production = {
-      primary = var.prod_vpc_cidr
+      primary = var.prod_vpc_details.primary.cidr_block
       dr      = var.prod_vpc_details.dr.cidr_block
     }
     development = {
-      primary = var.dev_vpc_cidr
+      primary = var.dev_vpc_details.primary.cidr_block
       dr      = var.dev_vpc_details.dr.cidr_block
     }
     uat = {
-      primary = var.uat_vpc_cidr
+      primary = var.uat_vpc_details.primary.cidr_block
       dr      = var.uat_vpc_details.dr.cidr_block
+    }
+    # sandbox = {
+    #   primary = var.sandbox_vpc_details.primary.cidr_block
+    # }
+    sandbox-shared = {
+      primary = var.sandbox_vpc_details.primary.cidr_block
     }
   }
   common_routes = {
