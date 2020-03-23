@@ -78,21 +78,21 @@ transit_vpc_details = {
     environment_affix = "sandbox"
     subnets = {
       amt-sandbox-transit-public-subnet-a = {
-        availability_zone = "us-east-2a"
+        availability_zone = "us-east-1a"
         cidr = { # cidrsubnet("10.98.136.0/21", 3, 0) = 10.98.136.0/24
           newbits = 3
           netnum  = 0
         }
       }
       amt-sandbox-transit-private-subnet-a = {
-        availability_zone = "us-east-2a"
+        availability_zone = "us-east-1a"
         cidr = { # cidrsubnet("10.98.136.0/21", 3, 1) = 10.98.131.0/24
           newbits = 3
           netnum  = 1
         }
       }
       amt-sandbox-transit-mgmt-subnet-a = {
-        availability_zone = "us-east-2a"
+        availability_zone = "us-east-1a"
         cidr = { # cidrsubnet("10.98.136.0/21", 5, 8) = 10.98.139.0/26
           newbits = 5
           netnum  = 8
