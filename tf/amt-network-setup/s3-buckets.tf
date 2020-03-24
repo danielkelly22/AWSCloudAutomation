@@ -17,5 +17,5 @@ resource "aws_s3_bucket_public_access_block" "snapshot_bucket" {
 resource "aws_s3_bucket_policy" "snapshot_bucket" {
   provider = aws.shared
   bucket   = aws_s3_bucket.snapshot_bucket.bucket
-  policy   = templatefile("${path.module}/policies/snapshot-bucket.json", { bucket-arn = aws_s3_bucket.snapshot_bucket.arn })
+  policy   = templatefile("${path.module}/policies/snapshot-bucket.json", { bucket_arn = aws_s3_bucket.snapshot_bucket.arn })
 }
