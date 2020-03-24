@@ -46,6 +46,18 @@ resource "aws_default_security_group" "default" {
     }
   }
 
+  dynamic "egress" {
+    for_each = local.s3_endpoint
+
+    content {
+      description     = "Allow outbound access to S3 via a VPC endpoint"
+      protocol        = "tcp"
+      from_port       = 443
+      to_port         = 443
+      prefix_list_ids = [aws_vpc_endpoint.s3[egress.key].prefix_list_id]
+    }
+  }
+
   tags = merge(var.tags, {
     Name = "amt-${var.vpc_details.environment_affix}-vpc-default-security-group"
   })
