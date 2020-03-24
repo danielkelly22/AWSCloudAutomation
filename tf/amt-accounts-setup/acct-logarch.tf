@@ -83,14 +83,41 @@ resource "aws_s3_bucket_policy" "log_archive" {
   policy = templatefile("${path.module}/policies/s3-log-archive-bucket.json", { bucket_arn = aws_s3_bucket.log_archive.arn })
 }
 
-resource "aws_s3_bucket_public_access_block" "log_archive" {
+resource "aws_s3_access_point" "shared_access_to_log_archive" {
   provider = aws.logarch
 
-  bucket                  = aws_s3_bucket.log_archive.bucket
-  block_public_acls       = true
-  ignore_public_acls      = false
-  block_public_policy     = true
-  restrict_public_buckets = false
+  bucket = aws_s3_bucket.log_archive.bucket
+  name   = "amt-logarch-shared-access-point"
+
+  policy = <<EOM
+{
+    "Version": "2012-10-17",
+    "Statement" : [
+    {
+        "Effect": "Allow",
+        "Principal" : { "AWS": "*" },
+        "Action" : "*",
+        "Resource" : [
+            "arn:aws:::amt-test-20200220173144059700000001",
+            "arn:aws:::amt-test-20200220173144059700000001/*"
+        ],
+        "Condition": {
+            "StringEquals" : { "s3:DataAccessPointAccount" : "523702938713" }
+        }
+    }]
+}
+EOM
+
+  vpc_configuration {
+    vpc_id = "vpc-04de814c0d3cfdd96"
+  }
+
+  public_access_block_configuration {
+    block_public_acls       = true
+    block_public_policy     = true
+    ignore_public_acls      = true
+    restrict_public_buckets = false
+  }
 }
 
 module "log_arch_baseline" {
