@@ -8,5 +8,5 @@ resource "aws_organizations_policy" "require_costcenter_tag" {
 
 resource "aws_organizations_policy_attachment" "require_costcenter_tag" {
   policy_id = aws_organizations_policy.require_costcenter_tag.id
-  target_id = aws_organizations_organizational_unit.vendormanaged.id
+  target_id = local.organization_id
 }

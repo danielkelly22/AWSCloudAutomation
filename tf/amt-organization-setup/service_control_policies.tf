@@ -36,17 +36,17 @@ resource "aws_organizations_policy" "require_s3_encryption" {
 ### Policy Attachments
 resource "aws_organizations_policy_attachment" "root_limit_regions" {
   policy_id = aws_organizations_policy.limit_regions.id
-  target_id = aws_organizations_organization.org.roots.0.id
+  target_id = local.organization_id
 }
 
 resource "aws_organizations_policy_attachment" "root_lock_down_cloudtrail" {
   policy_id = aws_organizations_policy.lock_down_cloudtrail.id
-  target_id = aws_organizations_organization.org.roots.0.id
+  target_id = local.organization_id
 }
 
 resource "aws_organizations_policy_attachment" "root_require_s3_encryption" {
   policy_id = aws_organizations_policy.require_s3_encryption.id
-  target_id = aws_organizations_organization.org.roots.0.id
+  target_id = local.organization_id
 }
 
 resource "aws_organizations_policy_attachment" "nonprod_disable_egress" {
