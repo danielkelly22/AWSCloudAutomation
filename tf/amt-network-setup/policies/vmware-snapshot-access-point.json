@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Allow AWS principals",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::207476187760:role/SharedSvcRoot"
+            },
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:us-east-1:207476187760:accesspoint/amt-snapshot-bucket-access-point/object/snapshots/*"
+            ]
+        }
+    ]
+}

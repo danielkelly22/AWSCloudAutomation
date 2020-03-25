@@ -2,7 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "Allow AWS principals",
+            "Sid": "Allow AWS Principals for the Master Admins",
             "Effect": "Allow",
             "Principal": {
                 "AWS": "*"
@@ -11,7 +11,29 @@
             "Resource": [
                 "${bucket_arn}",
                 "${bucket_arn}/*"
-            ]
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalArn": "arn:aws:iam::495467465354:group/AWSAdmins"
+                }
+            }
+        },
+        {
+            "Sid": "Delegate Control to Access Points",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": [
+                "${bucket_arn}",
+                "${bucket_arn}/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "s3:DataAccessPointAccount": "207476187760"
+                }
+            }
         },
         {
             "Sid": "AllowSSLRequestsOnly",
