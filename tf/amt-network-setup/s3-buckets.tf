@@ -21,11 +21,7 @@ resource "aws_s3_bucket" "snapshot_bucket" {
   }
   tags = module.shared_tags.tags
 }
-resource "aws_s3_bucket_policy" "snapshot_bucket" {
-  provider = aws.shared
-  bucket   = aws_s3_bucket.snapshot_bucket.bucket
-  policy   = templatefile("${path.module}/policies/vmware-snapshot-policy.json", { bucket_arn = aws_s3_bucket.snapshot_bucket.arn })
-}
+
 resource "aws_s3_bucket_public_access_block" "snapshot_bucket" {
   provider                = aws.shared
   bucket                  = aws_s3_bucket.snapshot_bucket.bucket
@@ -55,9 +51,7 @@ output "kms_id" {
 output "bucket" {
   value = aws_s3_bucket.snapshot_bucket.bucket
 }
-
 # output "access_point_arn" {
 #   value = aws_s3_access_point.snapshot_bucket.arn
 # }
-
 
