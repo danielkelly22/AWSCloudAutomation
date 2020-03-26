@@ -8,7 +8,7 @@
     tower_password: '{{ tower_password }}'
     PAT: '{{ PAT }}'
   tasks:
-   - name: Enable repos
+  - name: Enable repos
     become: yes
     yum:
       name: '{{ packages }}'
