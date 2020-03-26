@@ -30,7 +30,7 @@ accounts = {
     role_name = "ProductionRoot"
   }
   s3public = {
-    name      = "Pulbic S3 Buckets"
+    name      = "Public S3 Buckets"
     email     = "AMT-AWS-S3Public@amtrustgroup.com"
     ou_key    = "public"
     role_name = "S3PublicRoot"

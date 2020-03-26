@@ -30,8 +30,14 @@ resource "aws_organizations_policy" "require_s3_encryption" {
   name        = "AMTRequireS3Encryption"
   description = "Requires that anything stored on S3 is encrypted."
 
-  content = templatefile("${path.module}/policies/scp-require-s3-encryption-except-s3public.json", { public_s3_account = aws_organizations_account.accounts["s3public"].id })
-  # content = templatefile("${path.module}/policies/scp-require-s3-encryption.json", { public_s3_account = aws_organizations_account.accounts["s3public"].id })
+  content = file("${path.module}/policies/scp-require-s3-encryption.json")
+}
+
+resource "aws_organizations_policy" "require_s3_encryption_unless_tagged" {
+  name        = "AMTRequireS3Encryption"
+  description = "Requires that anything stored on S3 is encrypted."
+
+  content = file("${path.module}/policies/scp-require-s3-encryption-unless_tagged.json")
 }
 
 ### Policy Attachments
@@ -47,8 +53,12 @@ resource "aws_organizations_policy_attachment" "root_lock_down_cloudtrail" {
 
 resource "aws_organizations_policy_attachment" "root_require_s3_encryption" {
   policy_id = aws_organizations_policy.require_s3_encryption.id
-  target_id = local.organizational_units.production # Set back to the organization after testing
-  # target_id = local.organization_id
+  target_id = local.organization_id
+}
+
+resource "aws_organizations_policy_attachment" "s3public_require_s3_encryption_unless_tagged" {
+  policy_id = aws_organizations_policy.require_s3_encryption.id
+  target_id = aws_organizations_account.accounts["s3public"].id
 }
 
 resource "aws_organizations_policy_attachment" "nonprod_disable_egress" {

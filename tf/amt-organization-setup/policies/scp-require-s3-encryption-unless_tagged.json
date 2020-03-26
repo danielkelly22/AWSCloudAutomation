@@ -14,10 +14,9 @@
                     ]
                 },
                 "StringNotEquals": {
-                    "aws:SourceAccount": "${public_s3_account}"
-                },
-                "StringNotEqualsIfExists": {
-                    "aws:PrincipalTag/secure": "false"
+                    "s3:RequestObjectTag/secure": [
+                        "false"
+                    ]
                 }
             }
         },
@@ -31,10 +30,9 @@
                     "s3:x-amz-server-side-encryption": true
                 },
                 "StringNotEquals": {
-                    "aws:SourceAccount": "${public_s3_account}"
-                },
-                "StringNotEqualsIfExists": {
-                    "aws:PrincipalTag/secure": "false"
+                    "s3:RequestObjectTag/secure": [
+                        "false"
+                    ]
                 }
             }
         }
