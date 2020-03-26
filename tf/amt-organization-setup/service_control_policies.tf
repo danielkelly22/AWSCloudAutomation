@@ -34,7 +34,7 @@ resource "aws_organizations_policy" "require_s3_encryption" {
 }
 
 resource "aws_organizations_policy" "require_s3_encryption_unless_tagged" {
-  name        = "AMTRequireS3Encryption"
+  name        = "AMTRequireS3EncryptionUnlessedTagged"
   description = "Requires that anything stored on S3 is encrypted."
 
   content = file("${path.module}/policies/scp-require-s3-encryption-unless_tagged.json")
