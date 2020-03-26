@@ -18,6 +18,7 @@
       - https://centos7.iuscommunity.org/ius-release.rpm
 
   - name: Remove out of date git
+    become: true
     yum:
       name: git
       state: absent
