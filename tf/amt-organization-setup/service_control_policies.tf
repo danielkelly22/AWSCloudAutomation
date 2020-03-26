@@ -26,13 +26,6 @@ resource "aws_organizations_policy" "deny_all" {
   content = file("${path.module}/policies/scp-deny-all.json")
 }
 
-resource "aws_organizations_policy" "require_s3_encryption" {
-  name        = "AMTRequireS3Encryption"
-  description = "Requires that anything stored on S3 is encrypted."
-
-  content = file("${path.module}/policies/scp-require-s3-encryption.json")
-}
-
 resource "aws_organizations_policy" "require_s3_encryption_unless_tagged" {
   name        = "AMTRequireS3EncryptionUnlessedTagged"
   description = "Requires that anything stored on S3 is encrypted."
@@ -52,13 +45,8 @@ resource "aws_organizations_policy_attachment" "root_lock_down_cloudtrail" {
 }
 
 resource "aws_organizations_policy_attachment" "root_require_s3_encryption" {
-  policy_id = aws_organizations_policy.require_s3_encryption.id
-  target_id = local.organization_id
-}
-
-resource "aws_organizations_policy_attachment" "s3public_require_s3_encryption_unless_tagged" {
   policy_id = aws_organizations_policy.require_s3_encryption_unless_tagged.id
-  target_id = aws_organizations_account.accounts["s3public"].id
+  target_id = local.organization_id
 }
 
 resource "aws_organizations_policy_attachment" "nonprod_disable_egress" {
