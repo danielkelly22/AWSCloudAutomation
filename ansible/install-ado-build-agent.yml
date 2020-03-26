@@ -8,16 +8,23 @@
     tower_password: '{{ tower_password }}'
     PAT: '{{ PAT }}'
   tasks:
-  - name: Enable epel repo
+   - name: Enable repos
     become: yes
     yum:
-      name: epel-release
-      state: latest
+      name: '{{ packages }}'
+    vars:
+      packages:
+      - epel-release
+      - https://centos7.iuscommunity.org/ius-release.rpm
 
   - name: Install pip
     become: yes
     yum:
-      name: python-pip
+      name: '{{ packages }}'
+    vars:
+      packages:
+      - pyton-pip
+      - git
 
   - name: Install system dependencies
     become: yes
