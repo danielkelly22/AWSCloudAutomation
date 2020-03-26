@@ -31,3 +31,9 @@ Add the organizational unit to the `organizational_units.tf` file. Also add the 
  1. In the `tag_policies.tf` file, add an association of your policy to an OU or to the root of the organization.
 
 <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html>
+
+## Contributing
+
+Commit the changes to a branch in GitHub, then submit a pull request.
+
+<https://www.hashicorp.com/blog/continuous-integration-for-terraform-modules-with-github-actions/>

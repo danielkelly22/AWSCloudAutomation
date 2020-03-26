@@ -1,3 +1,0 @@
-output "hi" {
-  value = "placeholder"
-}
