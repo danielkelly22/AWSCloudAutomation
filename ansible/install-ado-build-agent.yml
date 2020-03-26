@@ -31,7 +31,7 @@
     vars:
       packages:
       - python-pip
-      - git
+      - git2u
 
   - name: Install pip packages
     become: yes
