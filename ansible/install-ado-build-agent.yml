@@ -17,16 +17,17 @@
       - epel-release
       - https://centos7.iuscommunity.org/ius-release.rpm
 
-  - name: Install pip
+  - name: Install packages
     become: yes
     yum:
       name: '{{ packages }}'
+      state: latest
     vars:
       packages:
       - python-pip
       - git
 
-  - name: Install system dependencies
+  - name: Install pip packages
     become: yes
     pip:
       name:
