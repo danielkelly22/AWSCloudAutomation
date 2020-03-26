@@ -29,6 +29,12 @@ accounts = {
     environment_affix = "production"
     email             = "AMT-AWS-ProductionAcct@amtrustgroup.com"
   }
+  s3public = {
+    account_number    = "616372832018"
+    root_role         = "S3PublicRoot"
+    environment_affix = "s3pub"
+    email             = "AMT-AWS-S3Public@amtrustgroup.com"
+  }
   sandbox = {
     account_number    = 964926329483
     root_role         = "SandboxRoot"
