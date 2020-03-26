@@ -17,6 +17,11 @@
       - epel-release
       - https://centos7.iuscommunity.org/ius-release.rpm
 
+  - name: Remove out of date git
+    yum:
+      name: git
+      state: absent
+
   - name: Install packages
     become: yes
     yum:
