@@ -23,7 +23,7 @@
       name: '{{ packages }}'
     vars:
       packages:
-      - pyton-pip
+      - python-pip
       - git
 
   - name: Install system dependencies
