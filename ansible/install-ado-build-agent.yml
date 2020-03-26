@@ -33,6 +33,7 @@
       - python-pip
       - git2u
       - ansible
+      - unzip
 
   - name: Install pip packages
     become: yes
