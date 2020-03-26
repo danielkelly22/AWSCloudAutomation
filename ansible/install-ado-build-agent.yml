@@ -1,0 +1,76 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Configure AWS build agent
+  hosts: all
+  vars:
+    tower_host: '{{ tower_host }}'
+    tower_username: '{{ tower_username }}'
+    tower_password: '{{ tower_password }}'
+    PAT: '{{ PAT }}'
+  tasks:
+  - name: Enable epel repo
+    become: yes
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: Install pip
+    become: yes
+    yum:
+      name: python-pip
+
+  - name: Install system dependencies
+    become: yes
+    pip:
+      name:
+        - pexpect
+        - ansible-tower-cli
+
+  - name: Configure tower-cli credentials
+    command: tower-cli config {{ item }}
+    with_items:
+    - host {{ tower_host }}
+    - username {{ tower_username }}
+    - password {{ tower_password }}
+
+  - name: Create Agent folder
+    file:
+      path: '{{ ansible_env.HOME }}/agent'
+      state: directory
+
+  - name: Download and unarchive agent file
+    unarchive:
+      src: https://vstsagentpackage.azureedge.net/agent/2.165.2/vsts-agent-linux-x64-2.165.2.tar.gz
+      dest: '{{ ansible_env.HOME }}/agent'
+      remote_src: yes
+
+  - name: Download agent dependencies
+    become: yes
+    command: '{{ ansible_env.HOME }}/agent/bin/installdependencies.sh'
+    args:
+      chdir: '{{ ansible_env.HOME }}/agent'
+
+  - name: Configure agent
+    expect:
+      command: '{{ ansible_env.HOME }}/agent/config.sh'
+      chdir: '{{ ansible_env.HOME }}/agent'
+      responses:
+        license agreement: Y
+        server URL: https://dev.azure.com/amtrust/
+        authentication type: ''
+        personal access token: '{{ PAT }}'
+        agent pool: AWS
+        agent name: ''
+        work folder: ''
+
+  - name: Create systemd service for agent
+    become: yes
+    command: '{{ ansible_env.HOME }}/agent/svc.sh install'
+    args:
+      chdir: '{{ ansible_env.HOME }}/agent'
+
+  - name: Start agent
+    become: yes
+    command: '{{ ansible_env.HOME }}/agent/svc.sh start'
+    args:
+      chdir: '{{ ansible_env.HOME }}/agent'
