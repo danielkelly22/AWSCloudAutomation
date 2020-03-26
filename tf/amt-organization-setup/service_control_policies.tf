@@ -57,7 +57,7 @@ resource "aws_organizations_policy_attachment" "root_require_s3_encryption" {
 }
 
 resource "aws_organizations_policy_attachment" "s3public_require_s3_encryption_unless_tagged" {
-  policy_id = aws_organizations_policy.require_s3_encryption.id
+  policy_id = aws_organizations_policy.require_s3_encryption_unless_tagged.id
   target_id = aws_organizations_account.accounts["s3public"].id
 }
 
