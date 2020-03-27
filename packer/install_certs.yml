@@ -1,0 +1,70 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Install Vault and Consul
+  hosts: all
+  become: true
+  vars:
+    cert_file: '{{ cert_file }}'
+    cert_password: '{{ cert_password }}'
+  tasks:
+  - name: Enable epel-release repo
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: Install pip
+    yum:
+      name: python-pip
+
+  - name: Install pyOpenSsl
+    pip:
+      name: pyOpenSsl
+      state: latest
+
+  - name: Copy pfx file over
+    copy:
+      src: '{{ cert_file }}'
+      dest: /tmp/vault.pfx
+      mode: 0600
+      owner: vault
+      group: vault
+
+  - name: Parse pfx file into key file
+    openssl_pkcs12:
+      action: parse
+      src: /tmp/vault.pfx
+      path: /opt/vault/tls/vault.key.pem
+      passphrase: '{{ cert_password }}'
+      owner: vault
+      group: vault
+      mode: 0600
+
+  - name: Duplicate parsed pfx file into cert file
+    copy:
+      remote_src: yes
+      src: /opt/vault/tls/vault.key.pem
+      dest: /opt/vault/tls/vault.crt.pem
+      owner: vault
+      group: vault
+      mode: 0600
+
+  - name: Remove pfx file
+    file:
+      path: /tmp/vault.pfx
+      state: absent
+
+  - name: Strip cert from key file
+    blockinfile:
+      path: /opt/vault/tls/vault.key.pem
+      marker: '-----{mark} CERTIFICATE-----'
+      block: ''
+    register: result
+    until: result.changed == false
+    retries: 5
+    delay: 0
+
+  - name: Strip key from cert file
+    blockinfile:
+      path: /opt/vault/tls/vault.crt.pem
+      marker: '-----{mark} PRIVATE KEY-----'
+      block: ''
