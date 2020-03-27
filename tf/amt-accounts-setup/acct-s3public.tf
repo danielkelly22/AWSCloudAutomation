@@ -58,6 +58,8 @@ resource "aws_s3_bucket" "public_share" {
 }
 
 resource "aws_s3_bucket_policy" "public_share" {
+  provider = aws.s3public
+
   bucket = aws_s3_bucket.public_share.bucket
   policy = templatefile("${path.module}/policies/s3-public-share-policy.json", { bucket_arn = aws_s3_bucket.public_share.bucket })
 }
