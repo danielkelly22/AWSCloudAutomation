@@ -1,0 +1,116 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Install Vault and Consul
+  hosts: all
+  become: true
+  vars:
+    cert_file: '{{ cert_file }}'
+    cert_password: '{{ cert_password }}'
+    name: '{{ name }}'
+    version: '{{ version }}'
+    download_package_path: /tmp/{{ name }}.zip
+    system_bin_dir: /usr/local/bin
+    path: /opt/{{ name }}
+
+  tasks:
+  - name: Upgrade all packages
+    become: yes
+    yum:
+      name: '*'
+      state: latest
+
+  - name: Enable epel repo
+    become: yes
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: Install dependencies
+    become: yes
+    yum:
+      name: '{{ packages }}'
+    vars:
+      packages:
+      - awscli
+      - curl
+      - unzip
+      - jq
+
+  - name: Create {{ name }} group
+    become: yes
+    group:
+      name: '{{ name }}'
+      state: present
+
+  - name: Create {{ name }} user
+    become: yes
+    user:
+      name: '{{ name }}'
+      system: yes
+      group: '{{ name }}'
+
+  - name: Create install directories
+    become: yes
+    file:
+      path: '{{path}}/{{ item }}'
+      owner: '{{ name }}'
+      group: '{{ name }}'
+      state: directory
+      mode: '0755'
+    loop:
+      - ''
+      - /bin
+      - /config
+      - /data
+      - /tls
+      - /scripts
+
+  - name: Fetch and unzip binary
+    become: yes
+    unarchive:
+      remote_src: yes
+      src: https://releases.hashicorp.com/{{ name }}/{{ version }}/{{ name }}_{{ version }}_linux_amd64.zip
+      dest: '{{ path }}/bin'
+      owner: '{{ name }}'
+      group: '{{ name }}'
+      mode: 755
+
+  - name: Add symlink to {{ path }}/bin/{{ name }} in {{ system_bin_dir }}/{{ name }}
+    become: yes
+    file:
+      src: '{{ path }}/bin/{{ name }}'
+      dest: '{{ system_bin_dir }}/{{ name }}'
+      state: link
+
+  - name: Create systemd file
+    become: yes
+    copy:
+      src: 'templates/{{ name }}.service'
+      dest: '/etc/systemd/system/{{ name }}.service'
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Create config file directory
+    become: yes
+    file:
+      path: '/etc/{{ name }}.d/'
+      owner: '{{ name }}'
+      group: '{{ name }}'
+      state: directory
+      mode: 0755
+
+  - name: Create config file
+    become: yes
+    template:
+      src: 'templates/{{ name }}.hcl.j2'
+      dest: '/etc/{{ name }}.d/{{ name }}.hcl'
+      owner: '{{ name }}'
+      group: '{{ name }}'
+      mode: '0640'
+
+  - name: Enable systemd service
+    become: yes
+    systemd:
+      name: '{{ name }}'
+      enabled: yes

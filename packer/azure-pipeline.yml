@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool: AWS
+
+steps:
+- task: DownloadSecureFile@1
+  name: certFile
+  inputs:
+    secureFile: 'vault.amtrustservices.com.pfx'
+
+- script: >
+    packer build
+    -var 'access_key=
+    -var 'secret_key=$(AWS secret access key)'
+    -var 'cert_file=$(certFile.secureFilePath)'
+    -var 'cert_password=$(cert password)'
+    vault_ami.json
+  workingDirectory: packer
+  displayName: Build Vault AMI
+
+- script: >
+    packer build
+    -var 'access_key=$(AWS access key id)'
+    -var 'secret_key=$(AWS secret access key)'
+    consul_ami.json
+  workingDirectory: packer
+  displayName: Build Consul AMI

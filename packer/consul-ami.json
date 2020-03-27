@@ -1,0 +1,43 @@
+{
+  "variables": {
+    "access_key": "",
+    "secret_key": "",
+    "aws_region": "us-east-1"
+  },
+  "builders": [
+    {
+      "ami_name": "consul-centos7-{{uuid}}",
+      "ami_description": "A CentOS 7 AMI that has Consul installed.",
+      "instance_type": "t2.micro",
+      "name": "centos7-ami",
+      "region": "{{user `aws_region`}}",
+      "type": "amazon-ebs",
+      "access_key": "{{ user `access_key`}}",
+      "secret_key": "{{ user `secret_key`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "architecture": "x86_64",
+          "block-device-mapping.volume-type": "gp2",
+          "root-device-type": "ebs",
+          "name": "*CentOS Linux 7 x86_64 HVM EBS ENA*"
+        },
+        "owners": [
+          "679593333241"
+        ],
+        "most_recent": true
+      },
+      "ssh_username": "centos"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "install_binary.yml",
+      "extra_arguments": [
+        "--extra-vars",
+        "name=consul version=1.6.2 server_mode=true"
+      ]
+    }
+  ]
+}
