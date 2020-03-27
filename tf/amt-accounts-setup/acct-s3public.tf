@@ -47,3 +47,17 @@ module "s3public_baseline" {
 
   tags = module.s3public_tags.tags
 }
+
+resource "aws_s3_bucket" "public_share" {
+  provider = aws.s3public
+
+  bucket_prefix = "amt-share-"
+  acl           = "authenticated-read"
+
+  tags = module.s3public_tags.tags
+}
+
+resource "aws_s3_bucket_policy" "public_share" {
+  bucket = aws_s3_bucket.public_share.bucket
+  policy = templatefile("${path.module}/policies/s3-public-share-policy.json", { bucket_arn = aws_s3_bucket.public_share.bucket })
+}

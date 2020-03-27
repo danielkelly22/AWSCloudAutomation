@@ -1,18 +1,3 @@
-provider "aws" {
-  alias  = "prod"
-  region = "us-east-1"
-  assume_role {
-    role_arn = var.organization_accounts.production.assume_role_arn
-  }
-}
-provider "aws" {
-  alias  = "prod_dr"
-  region = "us-east-2"
-  assume_role {
-    role_arn = var.organization_accounts.production.assume_role_arn
-  }
-}
-
 #-----------------------------------------------
 # Primary
 #-----------------------------------------------

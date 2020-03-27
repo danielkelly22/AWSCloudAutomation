@@ -1,19 +1,3 @@
-provider "aws" {
-  alias  = "shared"
-  region = "us-east-1"
-  assume_role {
-    role_arn = var.organization_accounts.shared.assume_role_arn
-  }
-}
-provider "aws" {
-  alias  = "shared_dr"
-  region = "us-east-2"
-  assume_role {
-    role_arn = var.organization_accounts.shared.assume_role_arn
-  }
-}
-
-
 #-----------------------------------------------
 # Primary
 #-----------------------------------------------

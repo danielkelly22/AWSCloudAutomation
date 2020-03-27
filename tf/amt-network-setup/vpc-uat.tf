@@ -1,19 +1,3 @@
-provider "aws" {
-  alias  = "uat"
-  region = "us-east-1"
-  assume_role {
-    role_arn = var.organization_accounts.uat.assume_role_arn
-  }
-}
-
-provider "aws" {
-  alias  = "uat_dr"
-  region = "us-east-2"
-  assume_role {
-    role_arn = var.organization_accounts.uat.assume_role_arn
-  }
-}
-
 #-----------------------------------------------
 # Primary
 #-----------------------------------------------

@@ -1,11 +1,3 @@
-provider "aws" {
-  alias  = "sandbox"
-  region = "us-east-1"
-  assume_role {
-    role_arn = var.organization_accounts.sandbox.assume_role_arn
-  }
-}
-
 module "sandbox_tags" {
   providers = { aws = aws.sandbox }
 
