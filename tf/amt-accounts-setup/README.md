@@ -2,6 +2,15 @@
 
 This Terraform configuration is responsible for bootstrapping the governance tooling for each account. They must first be created in the `amt-organization-setup` configuration. Once they are, follow the instructions below for adding a new account
 
+## AWS Landing Zone
+
+The baselines applied conform to the guidance provided by the [AWS Landing Zone](https://aws.amazon.com/solutions/aws-landing-zone)
+
+For details on implementation of the baseline, refer to the security baseline module:
+
+* TFE: <https://tfe.amtrustgroup.com/app/AmTrust/modules/view/security-baseline>
+* GitHub (dot com): <https://github.com/amtrust/terraform-aws-security-baseline>
+
 ## Adding an account
 
 1. Add the account details to the `accounts.auto.tfvars` file
