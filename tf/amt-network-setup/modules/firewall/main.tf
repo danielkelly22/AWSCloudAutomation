@@ -1,14 +1,8 @@
-# iam roles work
-# The IAM policy must have permissions for the following actions and resources (at a minimum):
-#  - AttachNetworkInterface—For permission to attach an ENI to an instance.
-#  - DescribeNetworkInterface—For fetching the ENI parameters in order to attach an interface to the instance.
-#  - DetachNetworkInterface—For permission to detach the ENI from the EC2 instance.
-#  - DescribeInstances—For permission to obtain information on the EC2 instances in the VPC.
-# #  - Wild card (*)—In the Amazon Resource Name (ARN) field use the * as a wild card.
-
+###########
+# Policy
+###########
 resource "aws_iam_role" "firewall_ha_role" {
-  name = "FirewallHaRole"
-
+  name               = "FirewallHaRole"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -24,11 +18,9 @@ resource "aws_iam_role" "firewall_ha_role" {
 }
 EOF
 }
-
 resource "aws_iam_role_policy" "firewall_ha_policy" {
-  name = "FirewallHaPolicy"
-  role = aws_iam_role.firewall_ha_role.id
-
+  name   = "FirewallHaPolicy"
+  role   = aws_iam_role.firewall_ha_role.id
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -45,14 +37,16 @@ resource "aws_iam_role_policy" "firewall_ha_policy" {
 }
 EOF
 }
-
 resource "aws_iam_instance_profile" "fw_instance_profile" {
   name = "FirewallnstanceProfile"
   role = aws_iam_role.firewall_ha_role.name
 }
 
 # deploy palos
-resource "aws_network_interface" "fw_mgmt_interface_1" {
+########
+# FW1
+########
+resource "aws_network_interface" "fw1_mgmt_interface" {
   subnet_id         = var.management_subnet_id
   source_dest_check = false
   private_ips_count = 1
@@ -60,15 +54,7 @@ resource "aws_network_interface" "fw_mgmt_interface_1" {
     Name = "PaloFW1MgmtInterface"
   }
 }
-resource "aws_network_interface" "fw_mgmt_interface_2" {
-  subnet_id         = var.management_subnet_id
-  source_dest_check = false
-  private_ips_count = 1
-  tags = {
-    Name = "PaloFW2MgmtInterface"
-  }
-}
-resource "aws_network_interface" "fw_public_interface_1" {
+resource "aws_network_interface" "fw1_public_interface" {
   subnet_id         = var.public_subnet_id
   source_dest_check = false
   private_ips_count = 1
@@ -76,7 +62,7 @@ resource "aws_network_interface" "fw_public_interface_1" {
     Name = "PaloFW1PublicInterface"
   }
 }
-resource "aws_network_interface" "fw_private_interface_1" {
+resource "aws_network_interface" "fw1_private_interface" {
   subnet_id         = var.private_subnet_id
   source_dest_check = false
   private_ips_count = 1
@@ -84,20 +70,15 @@ resource "aws_network_interface" "fw_private_interface_1" {
     Name = "PaloFW1PrivateInterface"
   }
 }
-resource "aws_network_interface" "fw_private_interface_2" {
-  subnet_id         = var.private_subnet_id
-  source_dest_check = false
-  private_ips_count = 1
-  tags = {
-    Name = "PaloFW2PrivateInterface"
-  }
-}
-
-resource "aws_eip" "fw_public_eip_1" {
+resource "aws_eip" "fw1_public_eip" {
   vpc = true
   tags = {
     Name = "FwPublicElasticIP1"
   }
+}
+resource "aws_eip_association" "fw_eip_assoc" {
+  network_interface_id = aws_network_interface.fw1_public_interface.id
+  allocation_id        = aws_eip.fw1_public_eip.id
 }
 resource "aws_instance" "fw_instance1" {
   disable_api_termination              = false
@@ -126,19 +107,40 @@ resource "aws_instance" "fw_instance1" {
 
   network_interface {
     device_index         = 0
-    network_interface_id = aws_network_interface.fw_mgmt_interface_1.id
+    network_interface_id = aws_network_interface.fw1_mgmt_interface.id
   }
 
   network_interface {
     device_index         = 1
-    network_interface_id = aws_network_interface.fw_public_interface_1.id
+    network_interface_id = aws_network_interface.fw1_public_interface.id
   }
 
   network_interface {
     device_index         = 2
-    network_interface_id = aws_network_interface.fw_private_interface_1.id
+    network_interface_id = aws_network_interface.fw1_private_interface.id
   }
 }
+########
+# FW2
+########
+resource "aws_network_interface" "fw2_mgmt_interface" {
+  subnet_id         = var.management_subnet_id
+  source_dest_check = false
+  private_ips_count = 1
+  tags = {
+    Name = "PaloFW2MgmtInterface"
+  }
+}
+
+resource "aws_network_interface" "fw2_private_interface" {
+  subnet_id         = var.private_subnet_id
+  source_dest_check = false
+  private_ips_count = 1
+  tags = {
+    Name = "PaloFW2PrivateInterface"
+  }
+}
+
 resource "aws_instance" "fw_instance2" {
   disable_api_termination              = false
   iam_instance_profile                 = aws_iam_instance_profile.fw_instance_profile.name
@@ -165,16 +167,13 @@ resource "aws_instance" "fw_instance2" {
 
   network_interface {
     device_index         = 0
-    network_interface_id = aws_network_interface.fw_mgmt_interface_2.id
+    network_interface_id = aws_network_interface.fw2_mgmt_interface.id
   }
 
   network_interface {
     device_index         = 2
-    network_interface_id = aws_network_interface.fw_private_interface_2.id
+    network_interface_id = aws_network_interface.fw2_private_interface.id
   }
 }
 
-# resource "aws_eip_association" "fw_eip_assoc" {
-#   network_interface_id = aws_network_interface.fw_public_interface_2.id
-#   allocation_id        = aws_eip.fw_public_eip_1.id
-# }
+
