@@ -2,7 +2,7 @@
 # Policy
 ###########
 resource "aws_iam_role" "firewall_ha_role" {
-  name               = "FirewallHaRole"
+  name               = "amt-firewall-ha-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -19,7 +19,7 @@ resource "aws_iam_role" "firewall_ha_role" {
 EOF
 }
 resource "aws_iam_role_policy" "firewall_ha_policy" {
-  name   = "FirewallHaPolicy"
+  name   = "amt-firewall-ha-policy"
   role   = aws_iam_role.firewall_ha_role.id
   policy = <<EOF
 {
@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "firewall_ha_policy" {
 EOF
 }
 resource "aws_iam_instance_profile" "fw_instance_profile" {
-  name = "FirewallnstanceProfile"
+  name = "amt-firewall-instance-profile"
   role = aws_iam_role.firewall_ha_role.name
 }
 
