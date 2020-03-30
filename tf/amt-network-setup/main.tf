@@ -13,10 +13,6 @@ terraform {
 #-----------------------------------------------
 # Set up proviers 
 #-----------------------------------------------
-provider "aws" {
-  region = "us-east-1"
-}
-
 locals {
   local_addresses = {
     tens            = "10.0.0.0/8",

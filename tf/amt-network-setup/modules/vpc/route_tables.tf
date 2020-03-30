@@ -1,3 +1,5 @@
+# This is the default route table. Any subnet not specified as a public or private
+# subnet will receive this route.
 resource "aws_default_route_table" "default" {
   default_route_table_id = aws_vpc.vpc.default_route_table_id
 

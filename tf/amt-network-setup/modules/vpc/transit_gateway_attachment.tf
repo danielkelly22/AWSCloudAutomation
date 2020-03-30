@@ -26,7 +26,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "attachment" {
   })
 }
 
-# This accepts the VPC's connection to the transit gateway.
+# This accepts the VPC's connection to the transit gateway. This happens in the same account as
+# the transit gateway. The for_each allows us to skip this if the VPC and the transit gateway
+# are in the same account.
 resource "aws_ec2_transit_gateway_vpc_attachment_accepter" "accepter" {
   provider = aws.shared
 
@@ -45,6 +47,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment_accepter" "accepter" {
   depends_on = [aws_ec2_transit_gateway_vpc_attachment.attachment]
 }
 
+# The name says it all. If we don't do this hack. Things that use the attachment ID
+# may fail because the accepter hasn't completed.
 data "null_data_source" "hacky_way_to_ensure_that_the_accepter_completes" {
   inputs = {
     this_is_the_hacky_part = join(",", keys(aws_ec2_transit_gateway_vpc_attachment_accepter.accepter))
