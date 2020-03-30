@@ -1,6 +1,6 @@
 # file: sharedsvc
 [all:vars]
-cloudendure_install_token="F74B-7E36-3264-1656-7007-04B8-523E-DB95-94A6-D3E1-26C7-DC0D-4B5A-B2B2-EE62-A248"
+cloudendure_install_token="E09B-8BDD-9368-7817-D518-50A4-483D-BD72-4210-EB97-C9AC-9B07-04E6-93DE-61C2-B150"
 
 [sharedvpckeys:vars]
 ansible_ssh_private_key_file=~/.ssh/sharedvpckeys.pem
