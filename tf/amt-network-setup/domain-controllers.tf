@@ -30,6 +30,7 @@ resource "aws_instance" "dc_b" {
   tags = merge(module.shared_tags.tags, {
     Name = "amt-sharedservices-dc-b"
   })
+}
 
   resource "aws_security_group" "amt-dc-allow" {
   name   = "amt-dc-allow"
@@ -177,5 +178,4 @@ resource "aws_instance" "dc_b" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all traffic outbound"
   }
-}
 }
