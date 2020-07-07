@@ -1,0 +1,93 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Install Vault
+  hosts: all
+  become: yes
+  vars:
+    version: '1.4.0'
+  tasks:
+  - name: Upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+
+  - name: Enable epel repo
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: Install dependencies
+    yum:
+      name: '{{ packages }}'
+    vars:
+      packages:
+      - awscli
+      - curl
+      - unzip
+      - jq
+
+  - name: Create vault group
+    group:
+      name: vault
+      state: present
+
+  - name: Create vault user
+    user:
+      name: vault
+      group: vault
+      system: yes
+
+  - name: Create install directories
+    file:
+      path: '/opt/vault/{{ item }}'
+      owner: vault
+      group: vault
+      state: directory
+      mode: 0755
+    loop:
+      - ''
+      - /bin
+      - /config
+      - /data
+      - /tls
+      - /scripts
+      - /raft
+
+  - name: Fetch and unzip binary
+    unarchive:
+      remote_src: yes
+      src: https://releases.hashicorp.com/vault/{{ version }}/vault_{{ version }}_linux_amd64.zip
+      dest: /opt/vault/bin
+      owner: vault
+      group: vault
+      mode: 0755
+
+  - name: Add symlink to /opt/vault/bin/vault in /usr/local/bin/vault
+    file:
+      src: /opt/vault/bin/vault
+      dest: /usr/local/bin/vault
+      state: link
+
+  - name: Create systemd file
+    copy:
+      src: 'templates/vault.service'
+      dest: '/etc/systemd/system/vault.service'
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Create config file directory
+    file:
+      path: '/etc/vault.d/'
+      owner: vault
+      group: vault
+      state: directory
+      mode: 0755
+
+  - name: Create config file
+    template:
+      src: 'templates/vault.hcl.j2'
+      dest: '/etc/vault.d/vault.hcl'
+      owner: vault
+      group: vault
+      mode: 0640

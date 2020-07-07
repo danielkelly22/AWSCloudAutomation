@@ -1,0 +1,21 @@
+listener "tcp" {
+  address           = "localhost:8200"
+  cluster_address   = "localhost:8201"
+  tls_disable       = true
+
+  ### With TLS enabled:
+  # tls_cert_file     = "/opt/vault/tls/vault.crt"
+  # tls_key_file      = "/opt/vault/tls/vault.key.pem"
+}
+
+### With TLS enabled:
+# cluster_addr = "https://localhost:8201"
+# api_addr = "https://localhost:8200"
+
+cluster_addr = "http://localhost:8201"
+api_addr = "http://localhost:8200"
+ui = true
+disable_mlock = true
+
+# Below appended by user_data.sh
+

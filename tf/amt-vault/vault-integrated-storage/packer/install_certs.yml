@@ -1,0 +1,44 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Generate and install certs
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install dependencies
+    yum:
+      name: ca-certificates
+
+  - name: Generate OpenSSL private key
+    openssl_privatekey:
+      path: /opt/vault/tls/vault.key.pem
+      mode: 0600
+      owner: vault
+      group: vault
+
+  - name: Generate an OpenSSL Certificate Signing Request
+    openssl_csr:
+      path: /opt/vault/tls/vault.csr
+      privatekey_path: /opt/vault/tls/vault.key.pem
+      common_name: www.ansible.com
+
+  - name: Generate a Self Signed OpenSSL certificate
+    openssl_certificate:
+      privatekey_path: /opt/vault/tls/vault.key.pem
+      csr_path: /opt/vault/tls/vault.csr
+      provider: selfsigned
+      path: /opt/vault/tls/vault.crt
+      mode: 0600
+      owner: vault
+      group: vault
+
+  - name: Enable CA trust expansion
+    command: update-ca-trust enable
+
+  - name: Copy CA cert
+    copy:
+      src: /opt/vault/tls/vault.crt
+      dest: /etc/pki/ca-trust/source/anchors/vault.crt
+      remote_src: yes
+
+  - name: Add new CA trust
+    command: update-ca-trust extract
