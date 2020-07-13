@@ -9,7 +9,7 @@
     {
       "ami_name": "vault-{{user `version`}}-centos-7-{{ split uuid \"-\" 0 }}",
       "ami_description": "A CentOS 7 AMI that has Vault Installed.",
-      "vault_instance_type": "t2.micro",
+      "instance_type": "t2.micro",
       "name": "centos7-ami",
       "region": "{{user `aws_region`}}",
       "type": "amazon-ebs",
@@ -42,6 +42,11 @@
     {
       "type": "ansible",
       "playbook_file": "install_certs.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'centos' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+      "script": "amtrust.sh"
     }
   ]
 }

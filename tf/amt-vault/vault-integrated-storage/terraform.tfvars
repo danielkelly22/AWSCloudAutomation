@@ -1,0 +1,9 @@
+region              = "us-east-1"
+vpc_id              = "vpc-0709e462c67f9a26e"
+ami_id              = "ami-0bd2f9e040498f7d9"
+#ssh_key_name        = "vault_key"
+ssh_key_name        = ""
+vault_cluster_name  = "vault-cluster"
+vault_cluster_size  = 3
+vault_instance_type = "m5.large"
+asg_subnet_ids      = [ "subnet-0d854a74a97f6e236", "subnet-0018c69704ac4e06d" ]

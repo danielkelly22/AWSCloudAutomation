@@ -4,6 +4,9 @@ terraform {
 
 provider "aws" {
   region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::207476187760:role/SharedSvcRoot"
+  }
 }
 
 resource "aws_kms_key" "vault" {
