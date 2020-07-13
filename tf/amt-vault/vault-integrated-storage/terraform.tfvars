@@ -1,6 +1,6 @@
 region              = "us-east-1"
 vpc_id              = "vpc-0709e462c67f9a26e"
-ami_id              = "ami-0bd2f9e040498f7d9"
+ami_id              = "ami-045e7cd56f2d2ac52"
 #ssh_key_name        = "vault_key"
 ssh_key_name        = ""
 vault_cluster_name  = "vault-cluster"

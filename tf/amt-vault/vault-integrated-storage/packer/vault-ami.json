@@ -45,7 +45,7 @@
     },
     {
       "type": "shell",
-      "execute_command": "echo 'centos' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+      "execute_command": "echo 'centos' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "script": "amtrust.sh"
     }
   ]
