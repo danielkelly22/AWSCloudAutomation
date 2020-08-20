@@ -21,7 +21,7 @@ resource "aws_kms_alias" "vault" {
 ################################################
 # Auto Scaling Group
 ################################################
-resource "aws_autoscaling_group" "autoscaling_group" {
+resource "aws_autoscaling_group" "vault_autoscaling_group" {
   name                = var.vault_cluster_name
   min_size            = var.vault_cluster_size
   max_size            = var.vault_cluster_size
@@ -41,7 +41,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   }
 
   target_group_arns = [
-    aws_lb_target_group.tfe_tg_8200.arn
+    aws_lb_target_group.vault_tg_8200.arn
   ]
 }
 
@@ -113,11 +113,11 @@ resource "aws_lb_listener" "vault" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tfe_tg_8200.arn
+    target_group_arn = aws_lb_target_group.vault_tg_8200.arn
   }
 }
 
-resource "aws_lb_target_group" "tfe_tg_8200" {
+resource "aws_lb_target_group" "vault_tg_8200" {
   name     = "vault-group"
   port     = 8200
   protocol = "HTTP"
