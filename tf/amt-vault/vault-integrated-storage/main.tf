@@ -10,7 +10,7 @@ provider "aws" {
 }
 
 resource "aws_kms_key" "vault" {
-  description = "Vault Unseal Key"
+  description = "Vault Auto Unseal Key"
 }
 
 resource "aws_kms_alias" "vault" {
