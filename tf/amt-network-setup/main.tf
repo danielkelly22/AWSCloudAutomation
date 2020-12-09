@@ -11,7 +11,7 @@ terraform {
 }
 
 #-----------------------------------------------
-# Set up proviers 
+# Set up providers
 #-----------------------------------------------
 locals {
   local_addresses = {

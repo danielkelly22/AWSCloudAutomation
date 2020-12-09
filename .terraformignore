@@ -1,0 +1,10 @@
+.git/
+.terraform/
+.idea/
+bin/
+tmp/
+ansible/
+packer/
+*.docx
+*/.terraform/
+tf/amt-network-setup/.terraform/

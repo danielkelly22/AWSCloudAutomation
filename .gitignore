@@ -6,3 +6,7 @@
 **/*.lock.info
 **/.ignore
 **/.playground
+bin/
+.idea/
+tmp/
+temp/

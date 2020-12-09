@@ -11,7 +11,7 @@ resource "aws_instance" "dc_a" {
   }
 
   tags = merge(module.shared_tags.tags, {
-    Name = "amt-sharedservices-dc-a"
+    Name = "awspdc01"
   })
 }
 
@@ -28,6 +28,6 @@ resource "aws_instance" "dc_b" {
   }
 
   tags = merge(module.shared_tags.tags, {
-    Name = "amt-sharedservices-dc-b"
+    Name = "awspdc02"
   })
 }
