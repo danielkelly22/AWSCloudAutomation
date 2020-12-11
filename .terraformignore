@@ -8,3 +8,10 @@ packer/
 *.docx
 */.terraform/
 tf/amt-network-setup/.terraform/
+*.png
+*.md
+*.jpg
+*.jpeg
+*.pdf
+*.exe
+*.zip
