@@ -1,5 +1,7 @@
 # overriding default security group, because it allows all ingress traffic
 resource "aws_default_security_group" "default" {
+  count = var.skip_default_sg_config ? 0 : 1
+
   vpc_id = aws_vpc.vpc.id
 
   ingress {

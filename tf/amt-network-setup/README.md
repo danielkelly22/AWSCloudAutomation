@@ -2,52 +2,59 @@
 
 This Terraform workspace is responsible for setting up all of the VPC related resources for AmTrust primary, DR, and sandbox networks.
 
-## VPN
+## Related Documentation
+  * [amtrust_network_documentation](./amtrust_network_documentation.md)
+  * [amtrust_palo_alto_deployment](./amtrust_palo_alto_deployment.md)
+
+
+## Resources
+
+
+### VPN
 
 The VPN configuration defines the VPN resources employed in the AmTrust AWS organization. All VPN definitions can be placed in the `vpn.tf` file.
 
-## VPC
-
+### VPC
 All VPCs for the AmTrust AWS organization are defined here. It is divided into two files, `vpc-[environment].tf` and `vpc-[environment].auto.tfvars`. Both must be updated in order to add or remove a VPC.
 
-### `providers.tf`
 
+#### providers.tf
 This file is where all of the providers are defined. If you add a VPC in a new account, add the provider to this account. Try to keep the providers in alphabetical order to make it easier to find.
 
-### `vpc-[environment].tf`
 
+#### vpc-[environment].tf
 These files provisions the VPC. If an environment has multiple VPCs (e.g. primary, dr, sandbox), they should all be defined in this file. This makes it easier to locate all of the VPCs for an environment.
 
-### `vpc-[environment].auto.tfvars`
 
+#### vpc-[environment].auto.tfvars
 This file defines the VPC. Each `vpc-[environment].tf` file should have a corresponding `vpc-[environment].auto.tfvars` file. In addition, the variable defined in this file should be declared in the `variables.tf` file.
 
-## `tgw-gateways.tf` and `tgw-routes-[environment].tf`
 
+#### tgw-gateways.tf and tgw-routes-[environment].tf
 These files define the transit gateways and their routes.
 
 The `tgw-gateways.tf` file is where the transit gateways are created. If you are adding a new gateway do it here. During VPC creation, the ID for the gateways is passed to the VPCs, which then attach to those gateways.
 
-Since gateway routing requires all of the VPCs to be created first, routing is done after the VPCs are created. For each environment attached to the route, there should be a corresponding `tgw-routes-[environment].tf` file.
+Since gateway routing requires all the VPCs to be created first, routing is done after the VPCs are created. For each environment attached to the route, there should be a corresponding `tgw-routes-[environment].tf` file.
 
-## S3 Buckets
 
+### S3 Buckets
 S3 buckets that are not attached to a specific workload can be created in the `s3-buckets.tf` file. This makes it easier to audit S3 bucket creation in one place.
 
-## Palo Alto
 
+### Palo Alto
 The Palo Alto firewall resources are found in the `firewalls.tf` file.
 
-## AD DCs
 
+### AD DCs
 The AD DC resources are found in the `domain-controllers.tf` file.
 
-## Modules
 
+## Modules
 Local (inline) modules promote easier maintenance by moving the complexity of provisioning resources into a cohesive set of files. The modules described below.
 
-### vpc
 
+### vpc
 The VPC module encapsulates several aspects of VPC creation:
 
 * The VPC itself <https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-ipv4.html>
@@ -60,7 +67,7 @@ The VPC module encapsulates several aspects of VPC creation:
 * Creation of an internet gateway if needed with appropriate public subnet routing <https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html>
 * Creation of a NAT gateway if needed with appropriate private subnet routing <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html>
 
-#### VPC Module Usage
+#### usage
 
 ```terraform
 module "shared_vpc" {
@@ -112,12 +119,10 @@ module "tgw" {
 ```
 
 ### transit_gateway_route_table
-
 This applies routes to the transit gateway attachments for a VPC or VPN.
+[AWS TGW Route Table Documentation](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html)
 
-<https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html>
-
-### Transit Gateway Route Table Module Usage
+#### Usage
 
 ```hcl
 module "tgw_rt_dev" {
@@ -165,12 +170,12 @@ module "tgw_rt_dev" {
 }
 ```
 
-### vpn
 
+### vpn
 Creates a VPN. More specifically, this allows you to manage a VPN connection that has already been set up.
 
-#### VPN Module Usage
 
+#### Usage
 ```hcl
 module "vpn" {
   # The account to deploy the VPN in to
@@ -191,7 +196,6 @@ module "vpn" {
 ```
 
 #### Importing VPN Module Resources
-
 It may be easier to create the VPN manually and import it into the Terraform configuration after it has been created and validated. To do this, do the following.
 
 1. Set up the module call (see "[VPN Module Usage](#markdown-header-vpn-module-usage)" above)
@@ -202,12 +206,12 @@ It may be easier to create the VPN manually and import it into the Terraform con
 1. Copy the ID from the connection (should start with "vpn-")
 1. Import this to the module created in step 1. `terraform import module.[modulename].aws_vpn_connection.main_vpn_connection vpn-#################`
 
-### firewall
 
+### firewall
 Sets up the Palo Alto pair.
 
-#### Usage
 
+#### Usage
 ```hcl
 module "firewalls" {
   # The account where the firewalls will be deployed
@@ -237,11 +241,8 @@ module "firewalls" {
 ```
 
 ## Exceptions
-
 Core subnets in Shared Services VPC are public subnets to support TFE requiremnets. Once DNAT is supported through Palo Alto, these public subnets can be removed. See `vpc-shared.auto.tfvars`
 
 ## Contributing
-
 Commit the changes to a branch in GitHub, then submit a pull request.
-
 <https://www.hashicorp.com/blog/continuous-integration-for-terraform-modules-with-github-actions/>

@@ -1,0 +1,41 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "Ec2DeleteByTag1",
+         "Effect": "Allow",
+         "Action": "ec2:Delete*",
+         "Resource": [
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:route-table/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:instance/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:volume/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:internet-gateway/*"
+         ],
+         "Condition": {
+            "StringLike": {
+               "ec2:ResourceTag/Name": "CloudEndure*"
+            }
+         }
+      },
+      {
+         "Sid": "Ec2DeleteByTag2",
+         "Effect": "Allow",
+         "Action": "ec2:Delete*",
+         "Resource": [
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:route-table/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:instance/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:volume/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:internet-gateway/*"
+         ],
+         "Condition": {
+            "StringLike": {
+               "ec2:ResourceTag/CloudEndure creation time": "*"
+            }
+         }
+      }
+   ]
+}

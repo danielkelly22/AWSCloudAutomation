@@ -1,0 +1,30 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor3",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:DetachVolume",
+        "ec2:AttachVolume",
+        "ec2:DeleteVolume",
+        "ec2:TerminateInstances",
+        "ec2:StartInstances",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:StopInstances"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:*:dhcp-options/*",
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*",
+        "arn:aws:ec2:*:*:security-group/*"
+      ],
+      "Condition": {
+        "StringLike": {
+          "ec2:ResourceTag/CloudEndure creation time": "*"
+        }
+      }
+    }
+  ]
+}

@@ -31,6 +31,23 @@ module "tgw_rt_vpn" {
       cidr_blocks   = [var.prod_vpc_details.primary.cidr_block]
       attachment_id = module.prod_vpc.transit_gateway_attachment_id
     }
+    cloudendure-replication-vpc = {
+      cidr_blocks   = [var.shared_vpc_details.cloudendure_replication.cidr_block]
+      attachment_id = module.shared_cloudendure_replication_vpc.transit_gateway_attachment_id
+    }
+    drtest-vpc = {
+      cidr_blocks   = [var.shared_vpc_details.drtest.cidr_block]
+      attachment_id = module.shared_drtest_vpc.transit_gateway_attachment_id
+    }
+  }
+
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
   }
 
   tags = module.dr_tgw_tags.tags

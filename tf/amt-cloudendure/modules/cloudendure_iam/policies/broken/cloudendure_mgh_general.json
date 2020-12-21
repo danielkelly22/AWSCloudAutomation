@@ -1,0 +1,34 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "MigrationHomeRegion",
+         "Effect": "Allow",
+         "Action": [
+            "mgh:GetHomeRegion"
+         ],
+         "Resource": "*"
+      },
+      {
+         "Sid": "MigrationHomeGeneral",
+         "Effect": "Allow",
+         "Action": [
+            "ec2:CreateTags",
+            "mgh:ImportMigrationTask",
+            "mgh:AssociateCreatedArtifact",
+            "mgh:NotifyMigrationTaskState",
+            "mgh:DisassociateCreatedArtifact",
+            "mgh:PutResourceAttributes"
+         ],
+         "Resource": [
+            "arn:aws:mgh:${aws_region}:${aws_account_id}:progressUpdateStream/*/migrationTask/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:subnet/*",
+            "arn:aws:ec2:${aws_region}::network-interface/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}::snapshot/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*",
+            "arn:aws:ec2:${aws_region}::image/*"
+         ]
+      }
+   ]
+}

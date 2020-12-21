@@ -1,0 +1,34 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Other",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeAddresses",
+        "ec2:DescribeHosts",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribePlacementGroups"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "OtherTaggedOnly",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVpcs"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:ResourceTag/cloudendure_environment": "shared-drtest",
+          "ec2:ResourceTag/cloudendure_access_enabled": "true"
+        }
+      }
+    }
+  ]
+}

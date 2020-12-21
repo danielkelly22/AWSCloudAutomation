@@ -31,6 +31,19 @@ module "tgw_rt_transit" {
       cidr_blocks   = [var.prod_vpc_details.primary.cidr_block]
       attachment_id = module.prod_vpc.transit_gateway_attachment_id
     }
+    cloudendure-replication-vpc = {
+      cidr_blocks   = [var.shared_vpc_details.cloudendure_replication.cidr_block]
+      attachment_id = module.shared_cloudendure_replication_vpc.transit_gateway_attachment_id
+    }
+  }
+
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
   }
 
   tags = module.tgw_tags.tags
@@ -69,6 +82,20 @@ module "dr_tgw_rt_transit" {
       cidr_blocks   = [var.prod_vpc_details.dr.cidr_block]
       attachment_id = module.dr_prod_vpc.transit_gateway_attachment_id
     }
+  }
+
+  #   We want to block any 'isolated' subnet's cidr's. But we don't want to
+  # block the jump host from having regular network access because it needs
+  # to do things like copy backups into the environment.
+  #   Although in the future, blocking jump host network access, but allowing
+  # s3 and internet access, might be an even safer route.
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
   }
 
   tags = module.dr_tgw_tags.tags

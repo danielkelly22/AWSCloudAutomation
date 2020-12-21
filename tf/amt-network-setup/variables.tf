@@ -107,6 +107,8 @@ variable "shared_vpc_details" {
     primary = any
     dr      = any
     sandbox = any
+    cloudendure_replication = any
+    drtest = any
   })
 }
 

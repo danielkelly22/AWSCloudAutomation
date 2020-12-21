@@ -18,7 +18,7 @@ resource "aws_vpn_connection" "main_vpn_connection" {
   static_routes_only  = true
 
 
-  # todo better naming after we verify this won't break the VPN
+  # TODO: better naming after we verify this won't break the VPN
   tags = {
     Name = "main-amtrust-aws-vpn"
   }

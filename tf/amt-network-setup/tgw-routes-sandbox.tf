@@ -29,7 +29,15 @@ module "tgw_rt_sandbox" {
     }
   }
 
-  blackhole_routes = {}
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
+  }
+
   tags             = module.sandbox_tgw_tags.tags
 }
 
@@ -64,6 +72,16 @@ module "sandbox_tgw_rt_shared" {
       attachment_id = module.sandbox_vpc.transit_gateway_attachment_id
     }
   }
+
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
+  }
+
   tags = module.sandbox_tgw_tags.tags
 }
 
@@ -93,5 +111,16 @@ module "sandbox_tgw_rt_transit" {
       attachment_id = module.sandbox_vpc.transit_gateway_attachment_id
     }
   }
+
+  # TODO: Sandbox has two TGW's which is highly confusing. This below seems wrong.
+  blackhole_routes = {
+    for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+      k => cidrsubnet(
+        var.shared_vpc_details.drtest.cidr_block,
+        v.cidr.newbits,
+        v.cidr.netnum
+      )
+  }
+
   tags = module.sandbox_tgw_tags.tags
 }

@@ -2,6 +2,7 @@ dev_vpc_details = {
   primary = {
     cidr_block        = "10.98.16.0/20"
     environment_affix = "dev"
+    extra_tags = {}
     subnets = {
       amt-dev-web-subnet-a = {
         availability_zone = "us-east-1a"
@@ -9,6 +10,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 0
         }
+        extra_tags = {}
       }
       amt-dev-app-subnet-a = {
         availability_zone = "us-east-1a"
@@ -16,6 +18,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 1
         }
+        extra_tags = {}
       }
       amt-dev-data-subnet-a = {
         availability_zone = "us-east-1a"
@@ -23,6 +26,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 2
         }
+        extra_tags = {}
       }
       amt-dev-omnius-subnet-a = {
         availability_zone = "us-east-1a"
@@ -30,6 +34,7 @@ dev_vpc_details = {
           newbits = 4
           netnum  = 6
         }
+        extra_tags = {}
       }
       amt-dev-omnius-subnet-b = {
         availability_zone = "us-east-1b"
@@ -37,6 +42,7 @@ dev_vpc_details = {
           newbits = 4
           netnum  = 7
         }
+        extra_tags = {}
       }
       amt-dev-web-subnet-b = {
         availability_zone = "us-east-1b"
@@ -44,6 +50,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 4
         }
+        extra_tags = {}
       }
       amt-dev-app-subnet-b = {
         availability_zone = "us-east-1b"
@@ -51,6 +58,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 5
         }
+        extra_tags = {}
       }
       amt-dev-data-subnet-b = {
         availability_zone = "us-east-1b"
@@ -58,6 +66,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 6
         }
+        extra_tags = {}
       }
     }
     subnet_shares = {
@@ -81,10 +90,12 @@ dev_vpc_details = {
     ],
     public_subnets = []
     nat_subnets    = {}
+    isolated_subnets = []
   }
   dr = {
     cidr_block        = "10.98.144.0/20"
     environment_affix = "dr-dev"
+    extra_tags = {}
     subnets = {
       amt-dr-dev-web-subnet-a = {
         availability_zone = "us-east-2a"
@@ -92,6 +103,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 0
         }
+        extra_tags = {}
       }
       amt-dr-dev-app-subnet-a = {
         availability_zone = "us-east-2a"
@@ -99,6 +111,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 1
         }
+        extra_tags = {}
       }
       amt-dr-dev-data-subnet-a = {
         availability_zone = "us-east-2a"
@@ -106,6 +119,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 2
         }
+        extra_tags = {}
       }
       amt-dr-dev-omnius-subnet-a = {
         availability_zone = "us-east-2a"
@@ -113,6 +127,7 @@ dev_vpc_details = {
           newbits = 4
           netnum  = 6
         }
+        extra_tags = {}
       }
       amt-dr-dev-omnius-subnet-b = {
         availability_zone = "us-east-2b"
@@ -120,6 +135,7 @@ dev_vpc_details = {
           newbits = 4
           netnum  = 7
         }
+        extra_tags = {}
       }
       amt-dr-dev-web-subnet-b = {
         availability_zone = "us-east-2b"
@@ -127,6 +143,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 4
         }
+        extra_tags = {}
       }
       amt-dr-dev-app-subnet-b = {
         availability_zone = "us-east-2b"
@@ -134,6 +151,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 5
         }
+        extra_tags = {}
       }
       amt-dr-dev-data-subnet-b = {
         availability_zone = "us-east-2b"
@@ -141,6 +159,7 @@ dev_vpc_details = {
           newbits = 3
           netnum  = 6
         }
+        extra_tags = {}
       }
     }
     subnet_shares = {
@@ -164,5 +183,6 @@ dev_vpc_details = {
     ],
     public_subnets = []
     nat_subnets    = {}
+    isolated_subnets = []
   }
 }

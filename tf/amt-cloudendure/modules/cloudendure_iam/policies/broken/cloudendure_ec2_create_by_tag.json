@@ -1,0 +1,77 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "TagInstances",
+         "Effect": "Allow",
+         "Action": "ec2:CreateTags",
+         "Resource": "arn:aws:ec2:${aws_region}:${aws_account_id}:*/*",
+         "Condition": {
+            "StringEquals": {
+               "ec2:CreateAction": "RunInstances"
+            }
+         }
+      },
+      {
+         "Sid": "TagVolumes",
+         "Effect": "Allow",
+         "Action": "ec2:CreateTags",
+         "Resource": "arn:aws:ec2:${aws_region}:${aws_account_id}:*/*",
+         "Condition": {
+            "StringEquals": {
+               "ec2:CreateAction": "CreateVolume"
+            }
+         }
+      },
+      {
+         "Sid": "Ec2OperationsByTag1",
+         "Effect": "Allow",
+         "Action": [
+            "ec2:RevokeSecurityGroupIngress",
+            "ec2:DetachVolume",
+            "ec2:AttachVolume",
+            "ec2:DeleteVolume",
+            "ec2:TerminateInstances",
+            "ec2:StartInstances",
+            "ec2:RevokeSecurityGroupEgress",
+            "ec2:StopInstances"
+         ],
+         "Resource": [
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:instance/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:volume/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*"
+         ],
+         "Condition": {
+            "StringLike": {
+               "ec2:ResourceTag/Name": "CloudEndure*"
+            }
+         }
+      },
+      {
+         "Sid": "Ec2OperationsByTag2",
+         "Effect": "Allow",
+         "Action": [
+            "ec2:RevokeSecurityGroupIngress",
+            "ec2:DetachVolume",
+            "ec2:AttachVolume",
+            "ec2:DeleteVolume",
+            "ec2:TerminateInstances",
+            "ec2:StartInstances",
+            "ec2:RevokeSecurityGroupEgress",
+            "ec2:StopInstances"
+         ],
+         "Resource": [
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:instance/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:volume/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*"
+         ],
+         "Condition": {
+            "StringLike": {
+               "ec2:ResourceTag/CloudEndure creation time": "*"
+            }
+         }
+      }
+   ]
+}

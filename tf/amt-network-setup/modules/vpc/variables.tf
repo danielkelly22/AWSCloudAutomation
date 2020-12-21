@@ -42,6 +42,7 @@ variable "vpc_details" {
         newbits = number
         netnum  = number
       })
+      extra_tags = map(string)
     }))
     subnet_shares = map(object({
       target_name               = string
@@ -54,6 +55,8 @@ variable "vpc_details" {
     transited_subnets = list(string)
     public_subnets    = set(string)
     nat_subnets       = map(string)
+    isolated_subnets  = set(string)
+    extra_tags        = map(string)
   })
 }
 
@@ -79,6 +82,13 @@ variable "private_egress_blocks" {
   }
 }
 
+variable "skip_default_sg_config" {
+  description = "(Optional) Skip configuration of the default security group"
+  type        = bool
+  default     = false
+}
+
+
 variable "skip_gateway_attachment_acceptance" {
   description = "Set this to true if the VPC and the transit gateway are in the same account. Defaults to false."
   type        = bool
@@ -96,3 +106,4 @@ variable "transit_gateway_default_route_table_propagation" {
   type        = bool
   default     = false
 }
+

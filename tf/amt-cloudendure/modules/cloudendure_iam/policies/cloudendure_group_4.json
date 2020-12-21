@@ -1,0 +1,47 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "MigrationHubConfig",
+      "Effect": "Allow",
+        "Action": [
+        "mgh:GetHomeRegion"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor5",
+      "Effect": "Allow",
+        "Action": [
+        "ec2:RevokeSecurityGroupIngress",
+        "mgh:CreateProgressUpdateStream",
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:DeleteDhcpOptions",
+        "ec2:RunInstances",
+        "kms:DescribeKey",
+        "kms:CreateGrant",
+        "ec2:DeleteNetworkAclEntry",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+      ],
+      "Resource": [
+        "arn:aws:mgh:*:*:progressUpdateStream/*",
+        "arn:aws:ec2:*:*:subnet/*",
+        "arn:aws:ec2:*:*:key-pair/*",
+        "arn:aws:ec2:*:*:dhcp-options/*",
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*",
+        "arn:aws:ec2:*:*:security-group/*",
+        "arn:aws:ec2:*:*:network-acl/*",
+        "arn:aws:ec2:*:*:placement-group/*",
+        "arn:aws:ec2:*:*:vpc/*",
+        "arn:aws:ec2:*:*:network-interface/*",
+        "arn:aws:ec2:*::image/*",
+        "arn:aws:ec2:*:*:snapshot/*",
+        "arn:aws:kms:*:*:key/*"
+      ]
+    }
+  ]
+}

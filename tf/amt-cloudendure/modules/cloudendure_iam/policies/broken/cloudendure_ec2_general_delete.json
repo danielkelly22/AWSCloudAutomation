@@ -1,0 +1,39 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "Ec2GeneralDelete",
+         "Effect": "Allow",
+         "Action": [
+            "ec2:DeleteDhcpOptions",
+            "ec2:DeleteNetworkAclEntry",
+            "ec2:RevokeSecurityGroupEgress",
+            "ec2:RevokeSecurityGroupIngress",
+            "ec2:RunInstances",
+            "kms:CreateGrant",
+            "kms:Decrypt",
+            "kms:DescribeKey",
+            "kms:Encrypt",
+            "kms:GenerateDataKey*",
+            "kms:ReEncrypt*",
+            "mgh:CreateProgressUpdateStream"
+         ],
+         "Resource": [
+            "arn:aws:mgh:${aws_region}:${aws_account_id}:progressUpdateStream/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:subnet/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:key-pair/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:dhcp-options/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:instance/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:volume/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:security-group/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:network-acl/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:placement-group/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:vpc/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:network-interface/*",
+            "arn:aws:ec2:${aws_region}::image/*",
+            "arn:aws:ec2:${aws_region}:${aws_account_id}:snapshot/*",
+            "arn:aws:kms:${aws_region}:${aws_account_id}:key/*"
+         ]
+      }
+   ]
+}

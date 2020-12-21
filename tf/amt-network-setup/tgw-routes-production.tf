@@ -29,10 +29,20 @@ module "tgw_rt_prod" {
     }
   }
 
-  blackhole_routes = {
-    development = var.dev_vpc_details.primary.cidr_block
-    uat         = var.uat_vpc_details.primary.cidr_block
-  }
+  blackhole_routes = merge(
+    {
+      for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+        k => cidrsubnet(
+          var.shared_vpc_details.drtest.cidr_block,
+          v.cidr.newbits,
+          v.cidr.netnum
+        )
+    },
+    {
+      development = var.dev_vpc_details.primary.cidr_block
+      uat         = var.uat_vpc_details.primary.cidr_block
+    }
+  )
 
   tags = module.tgw_tags.tags
 }
@@ -69,10 +79,20 @@ module "dr_tgw_rt_prod" {
     }
   }
 
-  blackhole_routes = {
-    development = var.dev_vpc_details.dr.cidr_block
-    uat         = var.uat_vpc_details.dr.cidr_block
-  }
+  blackhole_routes = merge(
+    {
+      for k, v in module.shared_drtest_vpc.isolated_subnet_defs :
+        k => cidrsubnet(
+          var.shared_vpc_details.drtest.cidr_block,
+          v.cidr.newbits,
+          v.cidr.netnum
+        )
+    },
+    {
+      development = var.dev_vpc_details.dr.cidr_block
+      uat         = var.uat_vpc_details.dr.cidr_block
+    }
+  )
 
   tags = module.dr_tgw_tags.tags
 }

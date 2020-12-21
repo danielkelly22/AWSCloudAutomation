@@ -2,6 +2,7 @@ sandbox_vpc_details = {
   primary = {
     cidr_block        = "10.201.152.0/22"
     environment_affix = "sandbox"
+    extra_tags = {}
     subnets = {
       amt-sandbox-web-subnet = {
         availability_zone = "us-east-1a"
@@ -9,6 +10,7 @@ sandbox_vpc_details = {
           newbits = 2
           netnum  = 0
         }
+        extra_tags = {}
       }
       amt-sandbox-app-subnet = {
         availability_zone = "us-east-1b"
@@ -16,6 +18,7 @@ sandbox_vpc_details = {
           newbits = 2
           netnum  = 1
         }
+        extra_tags = {}
       }
       amt-sandbox-data-subnet = {
         availability_zone = "us-east-1a"
@@ -23,6 +26,7 @@ sandbox_vpc_details = {
           newbits = 2
           netnum  = 2
         }
+        extra_tags = {}
       }
       # amt-sandbox-eks-subnet = {
       #   availability_zone = "us-east-1b"
@@ -38,6 +42,7 @@ sandbox_vpc_details = {
     ],
     public_subnets = []
     nat_subnets    = {}
+    isolated_subnets = []
   }
   dr = {}
 }
