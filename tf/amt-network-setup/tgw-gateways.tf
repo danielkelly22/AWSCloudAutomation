@@ -74,6 +74,7 @@ module "sandbox_tgw" {
   providers = { aws = aws.sandbox }
 
   source = "./modules/transit_gateway"
+  enable_tgw_sharing = false
 
   tags = module.sandbox_tgw_tags.tags
 }

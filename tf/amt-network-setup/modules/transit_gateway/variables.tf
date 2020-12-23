@@ -9,3 +9,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_tgw_sharing" {
+  description = "Should the TGW be shared via RAM."
+  type        = bool
+  default     = true
+}
