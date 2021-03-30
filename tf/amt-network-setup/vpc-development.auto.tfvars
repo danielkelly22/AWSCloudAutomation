@@ -68,8 +68,7 @@ dev_vpc_details = {
         }
         extra_tags = {}
       }
-    }
-    amt-dev-omnius2-subnet-a = {
+      amt-dev-omnius2-subnet-a = {
         availability_zone = "us-east-1a"
         cidr = { # cidrsubnet("10.98.16.0/20", 4, 14) = 10.98.30.0/24
           newbits = 4
@@ -85,6 +84,7 @@ dev_vpc_details = {
         }
         extra_tags = {}
       }
+    }
     subnet_shares = {
       omnius = {
         target_name               = "omnius_dev"
