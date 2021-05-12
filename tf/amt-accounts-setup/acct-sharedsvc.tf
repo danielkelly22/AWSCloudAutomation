@@ -4,7 +4,7 @@ locals {
 
 provider "aws" {
   alias   = "sharedsvc"
-  version = "~> 2.8"
+  version = "~> 3.38.0"
 
   assume_role {
     role_arn     = "arn:aws:iam::${local.sharedsvcacct.account_number}:role/${local.sharedsvcacct.root_role}"

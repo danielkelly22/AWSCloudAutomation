@@ -1,4 +1,16 @@
 accounts = {
+  amt-aws-smartcomm-dev = {
+    name      = "smartcomm-dev"
+    role_name = "OrganizationAccountAccessRole"
+    ou_key    = "nonprod"
+    email     = "AMT-AWS-SmartCommDev@amtrustgroup.com"
+  }
+  amt-aws-smartcomm-prod = {
+    name      = "smartcomm-prod"
+    role_name = "OrganizationAccountAccessRole"
+    ou_key    = "production"
+    email     = "AMT-AWS-SmartCommProd@amtrustgroup.com"
+  }
   development = {
     name      = "Development"
     email     = "AMT-AWS-DevAcct@amtrustgroup.com"

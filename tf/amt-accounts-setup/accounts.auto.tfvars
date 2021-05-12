@@ -1,4 +1,16 @@
 accounts = {
+  amt-aws-smartcomm-dev = {
+    account_number    = 115040376450
+    root_role         = "OrganizationAccountAccessRole"
+    environment_affix = "smartcomm-dev"
+    email             = "AMT-AWS-SmartCommDev@amtrustgroup.com"
+  }
+  amt-aws-smartcomm-prod = {
+    account_number    = 528258650603
+    root_role         = "OrganizationAccountAccessRole"
+    environment_affix = "smartcomm-prod"
+    email             = "AMT-AWS-SmartCommProd@amtrustgroup.com"
+  }
   development = {
     account_number    = 366159711973
     root_role         = "DevRoot"

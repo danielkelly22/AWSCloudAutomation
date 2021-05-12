@@ -5,7 +5,7 @@ locals {
 
 provider "aws" {
   alias   = "logarch"
-  version = "~> 2.8"
+  version = "~> 3.38.0"
 
   assume_role {
     role_arn     = "arn:aws:iam::${local.logarchacct.account_number}:role/${local.logarchacct.root_role}"

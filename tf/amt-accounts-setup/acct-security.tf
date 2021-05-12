@@ -4,7 +4,7 @@ locals {
 
 provider "aws" {
   alias   = "security"
-  version = "~> 2.8"
+  version = "~> 3.38.0"
 
   assume_role {
     role_arn     = "arn:aws:iam::${local.securityacct.account_number}:role/${local.securityacct.root_role}"

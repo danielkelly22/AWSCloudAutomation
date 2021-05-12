@@ -10,5 +10,5 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.8"
+  version = "~> 3.38.0"
 } # master
