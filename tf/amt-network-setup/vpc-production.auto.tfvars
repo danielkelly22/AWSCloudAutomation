@@ -68,6 +68,22 @@ prod_vpc_details = {
         }
         extra_tags = {}
       }
+      amt-prod-omnius2-subnet-a = {
+        availability_zone = "us-east-1a"
+        cidr = { # cidrsubnet("10.98.48.0/20", 4, 14) = 10.98.62.0/24
+          newbits = 4
+          netnum  = 14
+        }
+        extra_tags = {}
+      }
+      amt-prod-omnius2-subnet-b = {
+        availability_zone = "us-east-1b"
+        cidr = { # cidrsubnet("10.98.48.0/20", 4, 15) = 10.98.63.0/24
+          newbits = 4
+          netnum  = 15
+        }
+        extra_tags = {}
+      }
     }
     subnet_shares = {
       omnius = {
@@ -80,6 +96,12 @@ prod_vpc_details = {
           }
           amt-prod-omnius-subnet-b = {
             description = "Subnet zone B for the omni:us application"
+          }
+          amt-prod-omnius2-subnet-a = {
+            description = "Subnet zone A for the omni:us v2 application"
+          }
+          amt-prod-omnius2-subnet-b = {
+            description = "Subnet zone B for the omni:us v2 application"
           }
         }
       }
